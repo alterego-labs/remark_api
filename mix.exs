@@ -7,6 +7,7 @@ defmodule RemarkApi.Mixfile do
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
+     elixirc_paths: elixirc_paths(Mix.env),
      deps: deps]
   end
 
@@ -18,21 +19,17 @@ defmodule RemarkApi.Mixfile do
      mod: {RemarkApi, []}]
   end
 
-  # Dependencies can be Hex packages:
-  #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type "mix help deps" for more examples and options
   defp deps do
     [
       {:postgrex, "0.11.1"},
       {:ecto, "2.0.0-beta.2"},
       {:cowboy, "1.0.4"},
-      {:jsex, "2.0.0"}
+      {:jsex, "2.0.0"},
+      {:ex_machina, "~> 0.6.1", only: :test},
+      {:faker, "~> 0.5", only: :test}
     ]
   end
+
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
 end
