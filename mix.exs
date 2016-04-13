@@ -14,7 +14,7 @@ defmodule RemarkApi.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:logger],
+    [applications: [:logger, :postgrex, :ecto, :ranch, :cowboy],
      mod: {RemarkApi, []}]
   end
 
@@ -28,6 +28,10 @@ defmodule RemarkApi.Mixfile do
   #
   # Type "mix help deps" for more examples and options
   defp deps do
-    []
+    [
+      {:postgrex, "0.11.1"},
+      {:ecto, "2.0.0-beta.2"},
+      {:cowboy, "1.0.4"}
+    ]
   end
 end
