@@ -6,7 +6,8 @@ defmodule RemarkApi.Http.Point do
   def start_link(opts \\ []) do
     dispatch = :cowboy_router.compile([
       {:_, [
-          {"/", RemarkApi.Http.Handlers.Index, []},
+          {"/", Handlers.Index, []},
+          {"/api/v1/messages", Handlers.Api.V1.Messages, []}
         ]},
     ])
     :cowboy.start_http :remark_api, 100, [port: 8183], [env: [dispatch: dispatch]]
