@@ -5,7 +5,8 @@ defmodule RemarkApi do
     import Supervisor.Spec, warn: false
 
     children = [
-      supervisor(RemarkApi.Repo, [])
+      supervisor(RemarkApi.Repo, []),
+      worker(RemarkApi.Http.Point, [])
     ]
 
     opts = [strategy: :one_for_one, name: RemarkApi.Supervisor]
