@@ -14,7 +14,8 @@ defmodule RemarkApi.Http.Handlers.Api.V1.Messages do
   end
 
   defp process({"GET", "application/json"}, req, state) do
-    {:ok, reply} = :cowboy_req.reply(200, [], "{\"rest\": \"Hello World!\"}", req)
+    messages_hash = RemarkApi.Http.Processors.Api.V1.Messages.get_messages
+    {:ok, reply} = make_json_response(req, %{messages: messages_hash})
     {:ok, reply, state}
   end
 
@@ -31,5 +32,15 @@ defmodule RemarkApi.Http.Handlers.Api.V1.Messages do
   defp process({_, _}, req, state) do
     {:ok, reply} = :cowboy_req.reply(415, [], "", req)
     {:ok, reply, state}
+  end
+
+  defp make_json_response(req, hash) do
+    {:ok, json} = JSEX.encode(%{data: hash})
+    :cowboy_req.reply(
+      200,
+      [{"content-type", "application/json"}],
+      json,
+      req
+    )
   end
 end

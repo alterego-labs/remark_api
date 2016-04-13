@@ -31,7 +31,8 @@ defmodule RemarkApi.Mixfile do
     [
       {:postgrex, "0.11.1"},
       {:ecto, "2.0.0-beta.2"},
-      {:cowboy, "1.0.4"}
+      {:cowboy, "1.0.4"},
+      {:jsex, "2.0.0"}
     ]
   end
 end
