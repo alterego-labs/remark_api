@@ -1,0 +1,17 @@
+#%RAML 0.8
+title: Remark App API
+baseUri: http://remark.alterego-labs.com/api/{version}
+version: v1
+protocols: [HTTP]
+mediaType: application/json
+
+/messages:
+  displayName: Manage messages
+  get:
+    displayName: Messages list
+    description: List of all messages
+    responses:
+      200:
+        body:
+          application/json:
+            example: !include examples/messages_list.json

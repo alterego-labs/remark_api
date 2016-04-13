@@ -1,0 +1,21 @@
+{
+  "data": {
+    "messages": [
+      {
+        "body": "First mood",
+        "created_at": {
+          "day": 13,
+          "hour": 13,
+          "min": 16,
+          "month": 4,
+          "sec": 55,
+          "usec": 0,
+          "year": 2016
+        },
+        "user": {
+          "login": "sergio"
+        }
+      }
+    ]
+  }
+}
