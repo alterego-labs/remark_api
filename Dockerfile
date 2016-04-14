@@ -15,4 +15,6 @@ RUN mix local.hex --force
 RUN mix local.rebar --force
 RUN mix deps.get && mix deps.compile
 
+EXPOSE 8183
+
 CMD ["iex", "-S", "mix"]
