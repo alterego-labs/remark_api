@@ -9,4 +9,9 @@ defmodule RemarkApi.User do
 
     timestamps
   end
+
+  def with_login(query, login) do
+    from u in query,
+    where: u.login == ^login
+  end
 end

@@ -15,3 +15,24 @@ mediaType: application/json
         body:
           application/json:
             example: !include examples/messages_list.json
+
+/users:
+  displayName: Users
+  /{login}:
+    displayName: User
+    uriParameters:
+      login:
+        displayName: User login
+        type: string
+    get:
+      displayName: User
+      description: Provides the information for user
+      responses:
+        200:
+          body:
+            application/json:
+              example: !include examples/get_user_ok.json
+        404:
+          body:
+            application/json:
+              example: !include examples/get_user_not_found.json

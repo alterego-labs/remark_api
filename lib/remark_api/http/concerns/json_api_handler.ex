@@ -14,7 +14,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
 
       defp process({"GET", "application/json"}, req, state) do
         some_response_hash = %{data: "value"}
-        reply = make_json_response(req, some_response_hash)
+        reply = make_ok_json_response(req, some_response_hash)
         {:ok, reply, state}
       end
     end
@@ -35,6 +35,13 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
         :ok
       end
 
+      @before_compile RemarkApi.Http.Concerns.JsonApiHandler
+    end
+  end
+
+  @doc false
+  defmacro __before_compile__(env) do
+    quote do
       defp process({_, "application/json"}, req, state) do
         {:ok, reply} = :cowboy_req.reply(406, [], "", req)
         {:ok, reply, state}
@@ -45,9 +52,17 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
         {:ok, reply, state}
       end
 
-      defp make_json_response(req, hash) do
+      defp make_ok_json_response(req, hash) do
+        build_json_response(req, hash, 200)
+      end
+
+      defp make_not_found_json_response(req, hash) do
+        build_json_response(req, hash, 404)
+      end
+
+      defp build_json_response(req, hash, status) do
         {:ok, json} = JSEX.encode(%{data: hash})
-        {:ok, reply} = :cowboy_req.reply(200, [{"content-type", "application/json"}], json, req)
+        {:ok, reply} = :cowboy_req.reply(status, [{"content-type", "application/json"}], json, req)
         reply
       end
     end

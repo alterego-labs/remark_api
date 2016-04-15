@@ -3,7 +3,7 @@ defmodule RemarkApi.Http.Handlers.Api.V1.Messages do
 
   defp process({"GET", "application/json"}, req, state) do
     messages_hash = RemarkApi.Http.Processors.Api.V1.Messages.get_messages
-    reply = make_json_response(req, %{messages: messages_hash})
+    reply = make_ok_json_response(req, %{messages: messages_hash})
     {:ok, reply, state}
   end
 
