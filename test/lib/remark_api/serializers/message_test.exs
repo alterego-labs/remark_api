@@ -2,6 +2,11 @@ defmodule RemarkApi.Serializers.MessageTest do
   use ExUnit.Case, async: true
 
   import RemarkApi.Factory
+  alias RemarkApi.Repo
+
+  setup do
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
+  end
 
   test "success serialization of one message with user" do
     message = create(:message, user: create(:user))

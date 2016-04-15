@@ -12,4 +12,9 @@ defmodule RemarkApi.Factory do
       body: Faker.Lorem.paragraph
     }
   end
+
+  def with_message(%RemarkApi.User{} = user) do
+    create(:message, user: user)
+    user
+  end
 end
