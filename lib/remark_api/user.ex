@@ -2,12 +2,20 @@ defmodule RemarkApi.User do
   use Ecto.Schema
   import Ecto.Query
 
+  alias RemarkApi.Repo
+
   schema "users" do
     field :login, :string
 
     has_many :messages, RemarkApi.Message, on_delete: :delete_all
 
     timestamps
+  end
+
+  def find_by_login(login) do
+    __MODULE__
+    |> with_login(login)
+    |> Repo.one
   end
 
   def with_login(query, login) do
