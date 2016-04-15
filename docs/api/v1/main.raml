@@ -32,7 +32,25 @@ mediaType: application/json
           body:
             application/json:
               example: !include examples/get_user_ok.json
+              description: When user with requested login found
         404:
           body:
             application/json:
               example: !include examples/get_user_not_found.json
+              description: When user with requested exists
+    /messages:
+      displayName: Messages list
+      description: Provides messages list of concrete user
+      get:
+        displayName: Message list
+        responses:
+          200:
+            description: When user with requested login found
+            body:
+              application/json:
+                example: !include examples/messages_list.json
+          404:
+            description: When user with requested exists
+            body:
+              application/json:
+                example: !include examples/get_user_not_found.json

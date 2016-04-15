@@ -1,10 +1,7 @@
 {
   "data": {
     "user": {
-      {
-        "login": "Some login"
-      }
+      "login": "Some login"
     }
   }
 }
-
