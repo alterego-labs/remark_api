@@ -1,5 +1,5 @@
 defmodule RemarkApi.Serializers.UserTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
   import RemarkApi.Factory
 
