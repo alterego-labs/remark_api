@@ -19,35 +19,37 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
       end
     end
   """
-  defmacro __using__ do
-    def init(_type, req, []) do
-      {:ok, req, :no_state}
-    end
+  defmacro __using__(opts \\ []) do
+    quote do
+      def init(_type, req, []) do
+        {:ok, req, :no_state}
+      end
 
-    def handle(req, state) do
-      {method, req2} = :cowboy_req.method(req)
-      {content_type, req3} = :cowboy_req.header("content-type", req2)
-      process({method, content_type}, req3, state)
-    end
+      def handle(req, state) do
+        {method, req2} = :cowboy_req.method(req)
+        {content_type, req3} = :cowboy_req.header("content-type", req2)
+        process({method, content_type}, req3, state)
+      end
 
-    def terminate(reason, request, state) do
-      :ok
-    end
+      def terminate(reason, request, state) do
+        :ok
+      end
 
-    defp process({_, "application/json"}, req, state) do
-      {:ok, reply} = :cowboy_req.reply(406, [], "", req)
-      {:ok, reply, state}
-    end
+      defp process({_, "application/json"}, req, state) do
+        {:ok, reply} = :cowboy_req.reply(406, [], "", req)
+        {:ok, reply, state}
+      end
 
-    defp process({_, _}, req, state) do
-      {:ok, reply} = :cowboy_req.reply(415, [], "", req)
-      {:ok, reply, state}
-    end
+      defp process({_, _}, req, state) do
+        {:ok, reply} = :cowboy_req.reply(415, [], "", req)
+        {:ok, reply, state}
+      end
 
-    defp make_json_response(req, hash) do
-      {:ok, json} = JSEX.encode(%{data: hash})
-      {:ok, reply} = :cowboy_req.reply(200, [{"content-type", "application/json"}], json, req)
-      reply
+      defp make_json_response(req, hash) do
+        {:ok, json} = JSEX.encode(%{data: hash})
+        {:ok, reply} = :cowboy_req.reply(200, [{"content-type", "application/json"}], json, req)
+        reply
+      end
     end
   end
 end
