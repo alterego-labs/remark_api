@@ -19,4 +19,4 @@ RUN mix release
 
 EXPOSE 8183
 
-CMD ["rel/remark_api/bin/remark_api", "start"]
+CMD ["rel/remark_api/bin/remark_api", "console"]

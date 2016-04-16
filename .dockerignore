@@ -3,3 +3,6 @@ Gruntfile.js
 /docs/**/*
 /_build/**/*
 /deps/**/*
+/rel/**/*
+/test/**/*
+/.git/**/*
