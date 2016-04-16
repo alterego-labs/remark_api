@@ -1,7 +1,7 @@
 FROM elixir:1.2.3
 MAINTAINER Sergey Gernyak <sergeg1990@gmail.com>
 
-ENV MIX_ENV=dev
+ENV MIX_ENV=prod
 
 RUN apt-get update && apt-get install -y build-essential git-core
 
@@ -14,7 +14,8 @@ COPY . ./
 RUN mix local.hex --force
 RUN mix local.rebar --force
 RUN mix deps.get && mix deps.compile
+RUN mix release
 
 EXPOSE 8183
 
-CMD ["iex", "-S", "mix"]
+CMD ["rel/remark_api/bin/remark_api", "start"]
