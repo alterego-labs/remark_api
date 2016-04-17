@@ -2,8 +2,7 @@ defmodule RemarkApi.Http.Handlers.Api.V1.UserMessages do
   use RemarkApi.Http.Concerns.JsonApiHandler
 
   defp process({"GET", "application/json"}, req, state) do
-    {bindings, req2} = :cowboy_req.bindings(req)
-    login = Keyword.get(bindings, :login)
+    login = fetch_binding(req, :login)
     reply = RemarkApi.Http.Processors.Api.V1.UserMessages.call(login) |> resolve_reply(req)
     {:ok, reply, state}
   end

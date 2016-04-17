@@ -6,6 +6,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
     - callbacks that each cowboy handler must has.
     - custom processing flow which depends on allowed HTTP methods and content type
     - helper function to generate final API response
+    - helper function to fetch bindings: URL parameters
 
   ## Examples
     
@@ -33,6 +34,11 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
 
       def terminate(reason, request, state) do
         :ok
+      end
+
+      defp fetch_binding(req, key) do
+        {bindings, req2} = :cowboy_req.bindings(req)
+        Keyword.get(bindings, key)
       end
 
       @before_compile RemarkApi.Http.Concerns.JsonApiHandler
