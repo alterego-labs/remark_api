@@ -13,5 +13,6 @@ defmodule RemarkApi.Http.Processors.Api.V1.Messages do
   defp do_query_by_user(%RemarkApi.User{} = user) do
     RemarkApi.Message
     |> RemarkApi.Message.for_user(user)
+    |> RemarkApi.Message.by_inserted_at
   end
 end
