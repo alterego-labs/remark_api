@@ -20,8 +20,15 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
       end
     end
   """
-  defmacro __using__(opts \\ []) do
+
+  defmacro __using__(_opts \\ []) do
     quote do
+      @response_headers [
+        {"access-control-allow-origin", "*"},
+        {"access-control-allow-methods", "GET, POST, PUT"},
+        {"content-type", "application/json"}
+      ]
+
       def init(_type, req, []) do
         {:ok, req, :no_state}
       end
@@ -46,15 +53,15 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
   end
 
   @doc false
-  defmacro __before_compile__(env) do
+  defmacro __before_compile__(_env) do
     quote do
       defp process({_, "application/json"}, req, state) do
-        {:ok, reply} = :cowboy_req.reply(406, [], "", req)
+        reply = build_reply(req, 406)
         {:ok, reply, state}
       end
 
       defp process({_, _}, req, state) do
-        {:ok, reply} = :cowboy_req.reply(415, [], "", req)
+        reply = build_reply(req, 415)
         {:ok, reply, state}
       end
 
@@ -68,7 +75,11 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
 
       defp build_json_response(req, hash, status) do
         {:ok, json} = JSEX.encode(%{data: hash})
-        {:ok, reply} = :cowboy_req.reply(status, [{"content-type", "application/json"}], json, req)
+        build_reply(req, status, json)
+      end
+
+      defp build_reply(req, http_status, json \\ "") do
+        {:ok, reply} = :cowboy_req.reply(http_status, @response_headers, json, req)
         reply
       end
     end
