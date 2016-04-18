@@ -7,6 +7,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
     - custom processing flow which depends on allowed HTTP methods and content type
     - helper function to generate final API response
     - helper function to fetch bindings: URL parameters
+    - implicitly provides OPTIONS request handling for CORS supporting
 
   ## Examples
     
