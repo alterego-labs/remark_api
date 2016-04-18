@@ -33,7 +33,7 @@ defmodule RemarkApi.Message do
     where: e.user_id == ^user.id
   end
 
-  def by_inserted_at(query) do
+  def recent(query) do
     from e in query,
     order_by: [desc: :inserted_at]
   end
