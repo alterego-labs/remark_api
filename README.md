@@ -1,7 +1,7 @@
 # RemarkApi
 
 [![Build Status](https://travis-ci.org/alterego-labs/remark_api.svg?branch=master)](https://travis-ci.org/alterego-labs/remark_api)
-[![Powered by magic](docs/powered_by_magic.png)]
+[![Powered by magic](docs/powered_by_magic.png)](http://elixir-lang.org/)
 
 Remark App is very simple solution to share your notes, ideas, remarks and mood.
 
