@@ -26,6 +26,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
       @response_headers [
         {"access-control-allow-origin", "*"},
         {"access-control-allow-methods", "GET, POST, PUT, OPTIONS"},
+        {"Access-Control-Allow-Headers", "origin, content-type"},
         {"content-type", "application/json"}
       ]
 
@@ -55,6 +56,11 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
   @doc false
   defmacro __before_compile__(_env) do
     quote do
+      defp process({"OPTIONS", _}, req, state) do
+        reply = build_reply(req, 200)
+        {:ok, reply, state}
+      end
+
       defp process({_, "application/json"}, req, state) do
         reply = build_reply(req, 406)
         {:ok, reply, state}

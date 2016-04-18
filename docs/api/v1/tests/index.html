@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <title></title>
+    
+  </head>
+  <body>
+    <button id="get-repos">Get Vintharas Repos! in JSON!!</button>
+    <div class="row">
+      <pre id="response"></pre>
+    </div>
+
+    <script type="text/javascript" charset="utf-8">
+      console.log('loading event handlers');
+      var response = document.getElementById("response");
+      var getReposBtn = document.getElementById("get-repos");
+      getReposBtn.onclick = function(){
+        var xhr = new XMLHttpRequest();
+        xhr.timeout = 2000;
+        xhr.onreadystatechange = function(e){
+          console.log(this);
+          if (xhr.readyState === 4){
+            if (xhr.status === 200){
+              // debugger;
+              // console.log(xhr.response);
+              response.innerHTML = xhr.response;
+            } else {
+              console.error("XHR didn't work: ", xhr.status);
+            }
+            }
+          }
+          xhr.ontimeout = function (){
+          console.error("request timedout: ", xhr);
+        }
+        xhr.open("get", "http://127.0.0.1:8183/api/v1/messages", /*async*/ true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        // xhr.responseType = "text";
+        xhr.send();
+      }
+    </script>
+  </body>
+</html>
