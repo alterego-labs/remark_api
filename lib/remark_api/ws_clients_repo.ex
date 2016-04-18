@@ -12,4 +12,9 @@ defmodule RemarkApi.WsClientsRepo do
   def remove(pid), do: :pg2.leave(@bucket, pid)
 
   def clients, do: :pg2.get_members(@bucket)
+
+  def send_to_all(func) do
+    clients
+    |> Enum.each(func)
+  end
 end

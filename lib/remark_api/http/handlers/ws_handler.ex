@@ -7,7 +7,6 @@ defmodule RemarkApi.Http.Handlers.WsHandler do
   def init({:tcp, :http}, req, opts), do: { :upgrade, :protocol, :cowboy_websocket, req, opts }
 
   def websocket_init(_any, req, opts) do
-    :timer.send_interval(3000, { :message, "Are we there yet?" })
     WsClientsRepo.add(self())
     { :ok, req, :no_state }
   end
