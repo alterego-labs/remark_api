@@ -1,9 +1,43 @@
-#%RAML 0.8
+#%RAML 1.0
 title: Remark App API
 baseUri: http://remark.alterego-labs.com/api/{version}
 version: v1
 protocols: [HTTP]
 mediaType: application/json
+description: !include home.md
+
+types:
+  User:
+    type: object
+    properties:
+      login: string
+  Message:
+    type: object
+    properties:
+      body: string
+      created_at: string
+      user: User
+  MessageListResponse:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          messages: Message[]
+  UserResponse:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          user: User
+  ErrorResponse:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          errors: array
 
 /messages:
   displayName: Manage messages
@@ -14,6 +48,7 @@ mediaType: application/json
       200:
         body:
           application/json:
+            schema: MessageListResponse
             example: !include examples/messages_list.json
 
 /users:
@@ -29,15 +64,17 @@ mediaType: application/json
       description: Provides the information for user
       responses:
         200:
+          description: When user with requested login found
           body:
             application/json:
+              schema: UserResponse
               example: !include examples/get_user_ok.json
-              description: When user with requested login found
         404:
+          description: When no user with requested login exists
           body:
             application/json:
+              schema: ErrorResponse
               example: !include examples/get_user_not_found.json
-              description: When user with requested exists
     /messages:
       displayName: Messages list
       description: Provides messages list of concrete user
@@ -48,9 +85,29 @@ mediaType: application/json
             description: When user with requested login found
             body:
               application/json:
+                schema: MessageListResponse
                 example: !include examples/messages_list.json
           404:
-            description: When user with requested exists
+            description: When no user with requested login exists
             body:
               application/json:
+                schema: ErrorResponse
+                example: !include examples/get_user_not_found.json
+      put:
+        displayName: Post new message by user which is specified by login
+        queryParameters:
+          message:
+            type: object
+            properties:
+              body:
+                displayName: Message body
+                type: string
+                description: Body text of the posted message
+                required: true
+        responses:
+          404:
+            description: When no user with requested login exists
+            body:
+              application/json:
+                schema: ErrorResponse
                 example: !include examples/get_user_not_found.json
