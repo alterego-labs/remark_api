@@ -25,7 +25,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
     quote do
       @response_headers [
         {"access-control-allow-origin", "*"},
-        {"access-control-allow-methods", "GET, POST, PUT"},
+        {"access-control-allow-methods", "GET, POST, PUT, OPTIONS"},
         {"content-type", "application/json"}
       ]
 
