@@ -1,9 +1,10 @@
 defmodule RemarkApi.WsClientsRepo do
-  @bucket :ws_clients
-
   @moduledoc """
   Provides managed shared state to keep group of active WS connections.
+  It looks like some kind of Agent but for keeping processes identifier.
   """
+
+  @bucket :ws_clients
 
   def create, do: :pg2.create(@bucket)
 

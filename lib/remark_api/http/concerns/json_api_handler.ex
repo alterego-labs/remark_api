@@ -57,28 +57,26 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
   @doc false
   defmacro __before_compile__(_env) do
     quote do
+      @doc """
+      Processing requests by pattern matching which is depends on http method and content type.
+      """
+      @spec process({String.t, String.t}, any, any) :: {:ok, any, any}
       defp process({"OPTIONS", _}, req, state) do
         reply = build_reply(req, 200)
         {:ok, reply, state}
       end
-
       defp process({_, "application/json"}, req, state) do
         reply = build_reply(req, 406)
         {:ok, reply, state}
       end
-
       defp process({_, _}, req, state) do
         reply = build_reply(req, 415)
         {:ok, reply, state}
       end
 
-      defp make_ok_json_response(req, hash) do
-        build_json_response(req, hash, 200)
-      end
+      defp make_ok_json_response(req, hash), do: build_json_response(req, hash, 200)
 
-      defp make_not_found_json_response(req, hash) do
-        build_json_response(req, hash, 404)
-      end
+      defp make_not_found_json_response(req, hash), do: build_json_response(req, hash, 404)
 
       defp build_json_response(req, hash, status) do
         {:ok, json} = JSEX.encode(%{data: hash})
