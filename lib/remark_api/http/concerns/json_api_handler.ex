@@ -7,6 +7,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
     - custom processing flow which depends on allowed HTTP methods and content type
     - helper function to generate final API response
     - helper function to fetch bindings: URL parameters
+    - helper function to fetch request JSON body
     - implicitly provides OPTIONS request handling for CORS supporting
 
   ## Examples
@@ -50,6 +51,12 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
         Keyword.get(bindings, key)
       end
 
+      defp fetch_json_request_body(req) do
+        {:ok, body, req2} = :cowboy_req.body(req)
+        {:ok, hash} = JSX.decode(body)
+        hash
+      end
+
       @before_compile RemarkApi.Http.Concerns.JsonApiHandler
     end
   end
@@ -79,7 +86,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
       defp make_not_found_json_response(req, hash), do: build_json_response(req, hash, 404)
 
       defp build_json_response(req, hash, status) do
-        {:ok, json} = JSEX.encode(%{data: hash})
+        {:ok, json} = JSX.encode(%{data: hash})
         build_reply(req, status, json)
       end
 

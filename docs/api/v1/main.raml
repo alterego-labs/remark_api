@@ -11,6 +11,12 @@ types:
     type: object
     properties:
       login: string
+  User.login:
+    type: object
+    properties:
+      login:
+        type: string
+        required: true
   Message:
     type: object
     properties:
@@ -70,12 +76,22 @@ types:
   post:
     displayName: User login endpoint
     description: Acquires request for user login use case
+    queryParameters:
+      user:
+        type: User.login
     responses:
       200:
+        description: When valid data posted
         body:
           application/json:
             schema: UserResponse
             example: !include examples/get_user_ok.json
+      422:
+        description: "When invalid data posted: the structure of query do not followed"
+        body:
+          application/json:
+            schema: ErrorResponse
+            example: !include examples/login_user_422.json
 
 /users:
   displayName: Users
