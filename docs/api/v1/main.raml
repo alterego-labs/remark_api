@@ -1,6 +1,6 @@
 #%RAML 1.0
 title: Remark App API
-baseUri: http://remark.alterego-labs.com/api/{version}
+baseUri: http://remark-api.alterego-labs.com/api/{version}
 version: v1
 protocols: [HTTP]
 mediaType: application/json
@@ -17,6 +17,13 @@ types:
       body: string
       created_at: string
       user: User
+  MessageResponse:
+    type: object
+    properties:
+      data:
+        type: object
+        properties:
+          message: Message
   MessageListResponse:
     type: object
     properties:
@@ -24,6 +31,13 @@ types:
         type: object
         properties:
           messages: Message[]
+  DataResponse:
+    type: object
+    properties:
+      data:
+        type: object
+  EmptyResponse:
+    type: DataResponse
   UserResponse:
     type: object
     properties:
@@ -105,9 +119,21 @@ types:
                 description: Body text of the posted message
                 required: true
         responses:
+          200:
+            description: When message has been created successfully
+            body:
+              application/json:
+                schema: MessageResponse
+                example: !include examples/message.json
           404:
             description: When no user with requested login exists
             body:
               application/json:
                 schema: ErrorResponse
                 example: !include examples/get_user_not_found.json
+          422:
+            description: When validations are failed
+            body:
+              application/json:
+                schema: ErrorResponse
+                example: !include examples/message_not_valid.json
