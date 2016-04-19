@@ -65,6 +65,18 @@ types:
             schema: MessageListResponse
             example: !include examples/messages_list.json
 
+/login:
+  displayName: User login endpoint
+  post:
+    displayName: User login endpoint
+    description: Acquires request for user login use case
+    responses:
+      200:
+        body:
+          application/json:
+            schema: UserResponse
+            example: !include examples/get_user_ok.json
+
 /users:
   displayName: Users
   /{login}:
