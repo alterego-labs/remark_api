@@ -1,6 +1,7 @@
 defmodule RemarkApi.User do
   use Ecto.Schema
   import Ecto.Query
+  import Ecto.Changeset
 
   alias RemarkApi.Repo
 
@@ -10,6 +11,13 @@ defmodule RemarkApi.User do
     has_many :messages, RemarkApi.Message, on_delete: :delete_all
 
     timestamps
+  end
+
+  def changeset_login(user, params \\ :empty) do
+    user
+    |> cast(params, ~w(login))
+    |> validate_required(:login)
+    |> unique_constraint(:login)
   end
 
   def find_by_login(login) do

@@ -23,6 +23,11 @@ types:
       body: string
       created_at: string
       user: User
+  UserLoginBody:
+    type: object
+    properties:
+      user:
+        type: User.login
   MessageResponse:
     type: object
     properties:
@@ -76,9 +81,10 @@ types:
   post:
     displayName: User login endpoint
     description: Acquires request for user login use case
-    queryParameters:
-      user:
-        type: User.login
+    body:
+      application/json:
+        schema: UserLoginBody
+        example: !include examples/user_login_body.json
     responses:
       200:
         description: When valid data posted

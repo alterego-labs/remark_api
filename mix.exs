@@ -8,6 +8,8 @@ defmodule RemarkApi.Mixfile do
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
      elixirc_paths: elixirc_paths(Mix.env),
+     test_coverage: [tool: ExCoveralls],
+     preferred_cli_env: ["coveralls": :test, "coveralls.detail": :test, "coveralls.post": :test, "coveralls.html": :test],
      deps: deps]
   end
 
@@ -27,7 +29,8 @@ defmodule RemarkApi.Mixfile do
       {:exjsx, "3.2.0"},
       {:ex_machina, "~> 0.6.1", only: :test},
       {:faker, "~> 0.5", only: :test},
-      {:exrm, "~> 1.0.3"}
+      {:exrm, "~> 1.0.3"},
+      {:excoveralls, "~> 0.4", only: :test}
     ]
   end
 

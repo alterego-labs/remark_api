@@ -85,6 +85,8 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
 
       defp make_not_found_json_response(req, hash), do: build_json_response(req, hash, 404)
 
+      defp make_422_json_response(req, hash), do: build_json_response(req, hash, 422)
+
       defp build_json_response(req, hash, status) do
         {:ok, json} = JSX.encode(%{data: hash})
         build_reply(req, status, json)
