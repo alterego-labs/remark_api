@@ -3,7 +3,6 @@ defmodule RemarkApi.Http.Processors.Api.V1.Login do
 
   @doc """
   Calls login processor.
-  
   """
   @spec call(map) :: {:ok, map} | {:error, list}
   def call(data) do
@@ -21,7 +20,6 @@ defmodule RemarkApi.Http.Processors.Api.V1.Login do
     hash = RemarkApi.Serializers.User.cast(user)
     {:ok, hash}
   end
-
   defp process_by_user(nil, data) do
     data
     |> Map.get(:user, %{})
@@ -39,7 +37,6 @@ defmodule RemarkApi.Http.Processors.Api.V1.Login do
     hash = RemarkApi.Serializers.User.cast(user)
     {:ok, hash}
   end
-
   defp process_by_insert_result({:error, changeset}) do
     {:error, prettify_errors(changeset)}
   end

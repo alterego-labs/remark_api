@@ -26,6 +26,10 @@ defmodule RemarkApi.User do
     |> Repo.one
   end
 
+  def with_login(query, nil = login) do
+    from u in query,
+    where: is_nil(u.login)
+  end
   def with_login(query, login) do
     from u in query,
     where: u.login == ^login
