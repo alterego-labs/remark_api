@@ -8,6 +8,7 @@ defmodule RemarkApi.Serializers.Message do
   def cast(message) do
     message = Repo.preload(message, :user)
     %{
+      id: message.id,
       body: message.body,
       created_at: Ecto.DateTime.to_string(message.inserted_at),
       user: serialize_user(message.user)  
