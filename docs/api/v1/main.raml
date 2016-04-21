@@ -23,6 +23,17 @@ types:
       body: string
       created_at: string
       user: User
+  Message.new:
+    type: object
+    properties:
+      body:
+        type: string
+        required: true
+  NewMessageBody:
+    type: object
+    properties:
+      message:
+        type: Message.new
   UserLoginBody:
     type: object
     properties:
@@ -143,15 +154,10 @@ types:
                 example: !include examples/get_user_not_found.json
       put:
         displayName: Post new message by user which is specified by login
-        queryParameters:
-          message:
-            type: object
-            properties:
-              body:
-                displayName: Message body
-                type: string
-                description: Body text of the posted message
-                required: true
+        body:
+          application/json:
+            schema: NewMessageBody
+            example: !include examples/new_message_body.json
         responses:
           200:
             description: When message has been created successfully
