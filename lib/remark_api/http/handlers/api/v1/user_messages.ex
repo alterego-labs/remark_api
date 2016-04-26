@@ -3,7 +3,7 @@ defmodule RemarkApi.Http.Handlers.Api.V1.UserMessages do
 
   defp process({"GET", "application/json"}, req, state) do
     login = fetch_binding(req, :login)
-    reply = RemarkApi.Http.Processors.Api.V1.UserMessages.get_all_for(login)
+    reply = RemarkApi.Http.Processors.Api.V1.UserMessages.get_all(login)
             |> resolve_reply(req)
     {:ok, reply, state}
   end

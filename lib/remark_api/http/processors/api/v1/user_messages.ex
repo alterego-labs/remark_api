@@ -1,9 +1,9 @@
 defmodule RemarkApi.Http.Processors.Api.V1.UserMessages do
   import RemarkApi.Helper
 
-  alias RemarkApi.{User, Repo, Message}
+  alias RemarkApi.{User, Repo, Message, PaginationParams}
 
-  def get_all_for(login) do
+  def get_all(login) do
     do_process(:get, login)
   end
 
