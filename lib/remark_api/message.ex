@@ -1,6 +1,7 @@
 defmodule RemarkApi.Message do
   use Ecto.Schema
   import Ecto.Query
+  import Ecto.Changeset
 
   schema "messages" do
     field :body, :string
@@ -8,6 +9,13 @@ defmodule RemarkApi.Message do
     belongs_to :user, RemarkApi.User
 
     timestamps
+  end
+
+  def changeset_create(message, params \\ :empty) do
+    message
+    |> cast(params, ~w(body user_id))
+    |> validate_required(:body)
+    |> assoc_constraint(:user)
   end
 
   @doc """
