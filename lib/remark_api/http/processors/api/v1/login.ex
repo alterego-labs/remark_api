@@ -1,6 +1,8 @@
 defmodule RemarkApi.Http.Processors.Api.V1.Login do
   alias RemarkApi.{User, Repo}
 
+  import RemarkApi.Helper
+
   @doc """
   Calls login processor.
   """
@@ -38,14 +40,6 @@ defmodule RemarkApi.Http.Processors.Api.V1.Login do
     {:ok, hash}
   end
   defp process_by_insert_result({:error, changeset}) do
-    {:error, prettify_errors(changeset)}
-  end
-
-  defp prettify_errors(changeset) do
-    changeset.errors
-    |> Enum.map(fn({key, value}) ->
-      processed_key = key |> Atom.to_string |> String.capitalize
-      processed_key <> " " <> value 
-    end)
+    {:error, pretty_errors(changeset)}
   end
 end
