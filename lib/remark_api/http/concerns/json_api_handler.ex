@@ -8,6 +8,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
     - helper function to generate final API response
     - helper function to fetch bindings: URL parameters
     - helper function to fetch request JSON body
+    - helper function to fetch query parameters
     - implicitly provides OPTIONS request handling for CORS supporting
 
   ## Examples
@@ -47,14 +48,19 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
       end
 
       defp fetch_binding(req, key) do
-        {bindings, req2} = :cowboy_req.bindings(req)
+        {bindings, _req2} = :cowboy_req.bindings(req)
         Keyword.get(bindings, key)
       end
 
       defp fetch_json_request_body(req) do
-        {:ok, body, req2} = :cowboy_req.body(req)
+        {:ok, body, _req2} = :cowboy_req.body(req)
         {:ok, hash} = JSX.decode(body)
         hash
+      end
+
+      defp fetch_qs_val(req, key) do
+        {value, _req2} = :cowboy_req.qs_val(key, req)
+        value
       end
 
       @before_compile RemarkApi.Http.Concerns.JsonApiHandler
