@@ -43,6 +43,6 @@ defmodule RemarkApi.Message do
 
   def recent(query) do
     from e in query,
-    order_by: [desc: :inserted_at]
+    order_by: [desc: :inserted_at, desc: :id]
   end
 end
