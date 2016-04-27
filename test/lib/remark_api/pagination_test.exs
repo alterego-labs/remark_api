@@ -17,8 +17,14 @@ defmodule RemarkApi.PaginationTest do
 
   test "build with string values" do
     res = Pagination.build("1006", "15")
-    assert res.last_message_id == "1006"
+    assert res.last_message_id == 1006
     assert res.per_page == 15
+  end
+
+  test "build with :undefined" do
+    res = Pagination.build(:undefined, :undefined)
+    assert res.last_message_id == nil
+    assert res.per_page == 10
   end
 
   test "apply only limiting" do
