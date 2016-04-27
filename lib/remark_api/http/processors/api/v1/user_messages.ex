@@ -18,7 +18,7 @@ defmodule RemarkApi.Http.Processors.Api.V1.UserMessages do
   end
 
   defp fetch_msg_params(body) do
-    body |> Map.get(:message, %{})
+    body |> Map.get("message", %{})
   end
 
   defp process_with_user(nil, _type, _pagination, _msg_params) do
