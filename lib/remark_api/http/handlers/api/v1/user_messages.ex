@@ -2,8 +2,9 @@ defmodule RemarkApi.Http.Handlers.Api.V1.UserMessages do
   use RemarkApi.Http.Concerns.JsonApiHandler
 
   defp process({"GET", "application/json"}, req, state) do
+    pagination = fetch_pagination(req)
     login = fetch_binding(req, :login)
-    reply = RemarkApi.Http.Processors.Api.V1.UserMessages.get_all(login)
+    reply = RemarkApi.Http.Processors.Api.V1.UserMessages.get_all(login, pagination)
             |> resolve_reply(req)
     {:ok, reply, state}
   end

@@ -13,14 +13,32 @@ defmodule RemarkApi.Pagination do
     |> RemarkApi.Repo.all
   """
 
-  defstruct last_message_id: nil, per_page: 10
+  @default_per_page 10
+
+  defstruct last_message_id: nil, per_page: @default_per_page
 
   import Ecto.Query
 
   @doc """
+  Builds pagination struct depending on an information which is fetched from a request
+  """
+  def build(last_message_id, nil = per_page) do
+    build(last_message_id, "")
+  end
+  def build(last_message_id, per_page) when is_integer(per_page) do
+    %__MODULE__{last_message_id: last_message_id, per_page: per_page}
+  end
+  def build(last_message_id, per_page) do
+    normalized_per_page = case Integer.parse(per_page) do
+      {value, _rest} -> value
+      :error -> @default_per_page
+    end
+    %__MODULE__{last_message_id: last_message_id, per_page: normalized_per_page}
+  end
+
+  @doc """
   Applies pagination for messages.
   """
-  # @spec apply(Ecto.Query.t, __MODULE__.t) :: Ecto.Query.t
   def apply(query, pagination) do
     query
     |> filter_by_message_id(pagination.last_message_id)

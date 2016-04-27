@@ -20,7 +20,7 @@ defmodule RemarkApi.Http.Processors.Api.V1.MessagesTest do
   end
 
   test "get messages for concrete existed user", %{user: user} do
-    hash = RemarkApi.Http.Processors.Api.V1.Messages.get_messages(user)
+    hash = RemarkApi.Http.Processors.Api.V1.Messages.get_messages(user: user)
     assert Enum.count(hash) == 1
   end
 end

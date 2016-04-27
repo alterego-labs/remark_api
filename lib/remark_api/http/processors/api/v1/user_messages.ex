@@ -3,33 +3,31 @@ defmodule RemarkApi.Http.Processors.Api.V1.UserMessages do
 
   alias RemarkApi.{User, Repo, Message, PaginationParams}
 
-  def get_all(login) do
-    do_process(:get, login)
+  def get_all(login, pagination \\ nil) do
+    do_process(:get, login, pagination)
   end
 
   def put_new_for(login, body) do
-    do_process(:put, login, fetch_msg_params(body))
+    do_process(:put, login, nil, fetch_msg_params(body))
   end
 
-  defp do_process(type, login, msg_params \\ %{}) do
+  defp do_process(type, login, pagination, msg_params \\ %{}) do
     login
     |> RemarkApi.User.find_by_login
-    |> process_with_user(type, msg_params)
+    |> process_with_user(type, pagination, msg_params)
   end
 
   defp fetch_msg_params(body) do
     body |> Map.get(:message, %{})
   end
 
-  defp process_with_user(nil, _type, _msg_params) do
+  defp process_with_user(nil, _type, _pagination, _msg_params) do
     {:not_found, %{}}
   end
-
-  defp process_with_user(%RemarkApi.User{} = user, :get, _msg_params) do
-    {:ok, RemarkApi.Http.Processors.Api.V1.Messages.get_messages(user)}
+  defp process_with_user(%RemarkApi.User{} = user, :get, pagination, _msg_params) do
+    {:ok, RemarkApi.Http.Processors.Api.V1.Messages.get_messages(user: user, pagination: pagination)}
   end
-
-  defp process_with_user(%RemarkApi.User{} = user, :put, msg_params) do
+  defp process_with_user(%RemarkApi.User{} = user, :put, _pagination, msg_params) do
     %Message{user_id: user.id}
     |> Message.changeset_create(msg_params)
     |> Repo.insert

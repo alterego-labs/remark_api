@@ -2,7 +2,8 @@ defmodule RemarkApi.Http.Handlers.Api.V1.Messages do
   use RemarkApi.Http.Concerns.JsonApiHandler
 
   defp process({"GET", "application/json"}, req, state) do
-    messages_hash = RemarkApi.Http.Processors.Api.V1.Messages.get_messages
+    pagination = fetch_pagination(req)
+    messages_hash = RemarkApi.Http.Processors.Api.V1.Messages.get_messages pagination: pagination
     reply = make_ok_json_response(req, %{messages: messages_hash})
     {:ok, reply, state}
   end

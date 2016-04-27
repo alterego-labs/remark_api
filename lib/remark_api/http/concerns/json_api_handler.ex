@@ -9,9 +9,10 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
     - helper function to fetch bindings: URL parameters
     - helper function to fetch request JSON body
     - helper function to fetch query parameters
+    - helper function to fetch pagination information
     - implicitly provides OPTIONS request handling for CORS supporting
 
-  ## Examples
+  ## Example of basic usage
     
     defmodule MyCoolHandler do
       use RemarkApi.Http.Concerns.JsonApiHandler
@@ -47,20 +48,43 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
         :ok
       end
 
+      @doc """
+      Fetches bindings values or URL parameters.
+      For example, if you have URL pattern `/users/:login` and you request URL `/users/sergio` then
+      in bindings you will have keyword with key `login` and value `sergio`.
+      By passing _key_ you fetches value of that entry which you need.
+      """
       defp fetch_binding(req, key) do
         {bindings, _req2} = :cowboy_req.bindings(req)
         Keyword.get(bindings, key)
       end
 
+      @doc """
+      Fetches body from request and decode it to JSON format.
+      """
       defp fetch_json_request_body(req) do
         {:ok, body, _req2} = :cowboy_req.body(req)
         {:ok, hash} = JSX.decode(body)
         hash
       end
 
+      @doc """
+      Fetches query parameters.
+      For example, if someone requests URL `/messages?per_page=10` then you can fetch _per\_page_
+      value by passing proper _key_ as second parameter.
+      """
       defp fetch_qs_val(req, key) do
         {value, _req2} = :cowboy_req.qs_val(key, req)
         value
+      end
+
+      @doc """
+      Fetches and builds pagination information.
+      """
+      defp fetch_pagination(req) do
+        last_message_id = fetch_qs_val(req, "last_message_id")
+        per_page = fetch_qs_val(req, "per_page")
+        RemarkApi.Pagination.build(last_message_id, per_page)
       end
 
       @before_compile RemarkApi.Http.Concerns.JsonApiHandler
@@ -72,6 +96,11 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
     quote do
       @doc """
       Processing requests by pattern matching which is depends on http method and content type.
+
+      By default several clauses already exists to handle some common behaviour:
+      - handle _OPTIONS_ request
+      - provide appropriate response for request with not allowed method
+      - provide appropriate response for request with not allowed content type
       """
       @spec process({String.t, String.t}, any, any) :: {:ok, any, any}
       defp process({"OPTIONS", _}, req, state) do

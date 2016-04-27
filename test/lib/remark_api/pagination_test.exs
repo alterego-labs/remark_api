@@ -3,7 +3,25 @@ defmodule RemarkApi.PaginationTest do
 
   alias RemarkApi.{Message, Repo, Pagination}
 
-  test "only limiting" do
+  test "build with all nils" do
+    res = Pagination.build(nil, nil)
+    assert res.last_message_id == nil
+    assert res.per_page == 10
+  end
+
+  test "build with integer values" do
+    res = Pagination.build(1006, 15)
+    assert res.last_message_id == 1006
+    assert res.per_page == 15
+  end
+
+  test "build with string values" do
+    res = Pagination.build("1006", "15")
+    assert res.last_message_id == "1006"
+    assert res.per_page == 15
+  end
+
+  test "apply only limiting" do
     create(:message)
     create(:message)
     pagination = %Pagination{per_page: 1}
@@ -11,7 +29,7 @@ defmodule RemarkApi.PaginationTest do
     assert Enum.count(res) == 1
   end
 
-  test "filtering and limiting" do
+  test "apply filtering and limiting" do
     m1 = create(:message)
     m2 = create(:message)
     m3 = create(:message)
