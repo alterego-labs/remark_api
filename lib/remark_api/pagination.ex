@@ -22,9 +22,8 @@ defmodule RemarkApi.Pagination do
   @doc """
   Builds pagination struct depending on an information which is fetched from a request
   """
-  def build(last_message_id, nil = per_page) do
-    build(last_message_id, "")
-  end
+  def build(last_message_id, nil = per_page), do: build(last_message_id, "")
+  def build(last_message_id, :underfined = per_page), do: build(last_message_id, "")
   def build(last_message_id, per_page) when is_integer(per_page) do
     %__MODULE__{last_message_id: last_message_id, per_page: per_page}
   end
