@@ -17,6 +17,8 @@ defmodule RemarkApi.User do
     user
     |> cast(params, ~w(login))
     |> validate_required(:login)
+    |> validate_format(:login, ~r/^[a-z0-9_-]*$/)
+    |> validate_length(:login, min: 3, max: 10)
     |> unique_constraint(:login)
   end
 
