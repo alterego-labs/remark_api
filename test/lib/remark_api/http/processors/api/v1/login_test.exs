@@ -10,12 +10,12 @@ defmodule RemarkApi.Http.Processors.Api.V1.LoginTest do
 
   test "success login of existed user when params are valid" do
     user = create(:user) 
-    res = RemarkApi.Http.Processors.Api.V1.Login.call(%{user: %{login: user.login}})
+    res = RemarkApi.Http.Processors.Api.V1.Login.call(%{"user" => %{"login" => user.login}})
     assert {:ok, _} = res
   end
 
   test "success login of unexisted user when params are valid" do
-    res = RemarkApi.Http.Processors.Api.V1.Login.call(%{user: %{login: "sergio"}})
+    res = RemarkApi.Http.Processors.Api.V1.Login.call(%{"user" => %{"login" => "sergio"}})
     assert {:ok, _} = res
   end
 

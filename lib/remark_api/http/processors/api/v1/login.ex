@@ -15,7 +15,7 @@ defmodule RemarkApi.Http.Processors.Api.V1.Login do
   end
 
   defp fetch_login(data) do
-    Map.get(data, :user, %{}) |> Map.get(:login, nil)
+    Map.get(data, "user", %{}) |> Map.get("login", nil)
   end
 
   defp process_by_user(user, data) when not is_nil(user) do
@@ -24,7 +24,7 @@ defmodule RemarkApi.Http.Processors.Api.V1.Login do
   end
   defp process_by_user(nil, data) do
     data
-    |> Map.get(:user, %{})
+    |> Map.get("user", %{})
     |> try_to_create_user
   end
 
