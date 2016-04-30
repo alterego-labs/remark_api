@@ -40,6 +40,6 @@ defmodule RemarkApi.Http.Processors.Api.V1.Login do
     {:ok, hash}
   end
   defp process_by_insert_result({:error, changeset}) do
-    {:error, pretty_errors(changeset)}
+    {:error, pretty_errors(changeset.errors)}
   end
 end
