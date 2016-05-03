@@ -30,7 +30,8 @@ defmodule RemarkApi.Mixfile do
       {:ex_machina, "~> 0.6.1", only: :test},
       {:faker, "~> 0.5", only: :test},
       {:exrm, "~> 1.0.3"},
-      {:excoveralls, "~> 0.4", only: :test}
+      {:excoveralls, "~> 0.4", only: :test},
+      {:ex_json_schema, "~> 0.3.1"}
     ]
   end
 

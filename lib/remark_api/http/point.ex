@@ -10,6 +10,7 @@ defmodule RemarkApi.Http.Point do
           {"/api/v1/login", Handlers.Api.V1.Login, []},
           {"/api/v1/messages", Handlers.Api.V1.Messages, []},
           {"/api/v1/users/:login", Handlers.Api.V1.User, []},
+          {"/api/v1/users/:login/token", Handlers.Api.V1.UserToken, []},
           {"/api/v1/users/:login/messages", Handlers.Api.V1.UserMessages, []}
         ]},
     ])
