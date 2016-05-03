@@ -38,7 +38,8 @@ defmodule RemarkApi.Http.Processors.Api.V1.UserToken do
   end
 
   defp process_with_validation_result(:ok, user, body) do
-    
+    RemarkApi.User.update_push_token(user, body["token"])
+    {:ok, %{}}
   end
   defp process_with_validation_result({:error, errors}, _user, _body) do
     {:error, errors}

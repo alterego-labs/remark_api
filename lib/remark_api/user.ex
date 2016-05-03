@@ -7,6 +7,8 @@ defmodule RemarkApi.User do
 
   schema "users" do
     field :login, :string
+    field :android_token, :string
+    field :ios_token, :string
 
     has_many :messages, RemarkApi.Message, on_delete: :delete_all
 
@@ -20,6 +22,12 @@ defmodule RemarkApi.User do
     |> validate_format(:login, ~r/^[a-z0-9_-]*$/)
     |> validate_length(:login, min: 3, max: 10)
     |> unique_constraint(:login)
+  end
+
+  def update_push_token(user, %{"type" => type, "value" => value}) do
+    token_column = "#{type}_token" |> String.to_atom
+    user = Ecto.Changeset.change(user, %{token_column => value})
+    {:ok, _} = Repo.update user
   end
 
   def find_by_login(login) do

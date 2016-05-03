@@ -21,4 +21,12 @@ defmodule RemarkApi.Http.Processors.Api.V1.UserTokenTest do
     res = UserToken.attach(user.login, body)
     assert {:error, _} = res
   end
+
+  test "attach when body is fully valid and user exists" do
+    user = create(:user)
+    token = "orq3892prxu2upr23pz23or,32"
+    body = %{"token" => %{"type" => "android", "value" => token}}
+    res = UserToken.attach(user.login, body)
+    assert {:ok, _} = res
+  end
 end
