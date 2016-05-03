@@ -6,14 +6,16 @@ defmodule RemarkApi.Http.Processors.Api.V1.UserToken do
         "type" => "object",
         "properties" => %{
           "type" => %{
-            "type" => "string",
+            "enum" => ["ios", "android"]
           },
           "value" => %{
             "type" => "string"
           }
-        }
+        },
+        "required" => ["type", "value"]
       }
-    }
+    },
+    "required" => ["token"]
   }
 
   def attach(login, body) do
@@ -32,6 +34,13 @@ defmodule RemarkApi.Http.Processors.Api.V1.UserToken do
   end
 
   defp validate_attach_body(body) do
+    ExJsonSchema.Validator.validate(@attach_schema, body)
+  end
+
+  defp process_with_validation_result(:ok, user, body) do
     
+  end
+  defp process_with_validation_result({:error, errors}, _user, _body) do
+    {:error, errors}
   end
 end

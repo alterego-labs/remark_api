@@ -16,7 +16,7 @@ defmodule RemarkApi.Http.Handlers.Api.V1.UserToken do
   defp resolve_reply({:not_found, _hash}, req) do
     make_not_found_json_response(req, %{errors: ["User not found!"]})
   end
-  defp resolve_reply({:error, _hash}, req) do
+  defp resolve_reply({:error, errors}, req) do
     make_422_json_response(req, %{errors: errors})
   end
 end
