@@ -1,7 +1,7 @@
 defmodule RemarkApi.Http.Handlers.Api.V1.UserToken do
   use RemarkApi.Http.Concerns.JsonApiHandler
 
-  alias RemarkApi.Processors.Api
+  alias RemarkApi.Http.Processors.Api
 
   defp process({"POST", "application/json"}, req, state) do
     login = fetch_binding(req, :login)
