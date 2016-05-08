@@ -41,7 +41,8 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
       def handle(req, state) do
         {method, req2} = :cowboy_req.method(req)
         {content_type, req3} = :cowboy_req.header("content-type", req2)
-        process({method, content_type}, req3, state)
+        normal_content_type = content_type |> String.split(";") |> Enum.at(0)
+        process({method, normal_content_type}, req3, state)
       end
 
       def terminate(reason, request, state) do
