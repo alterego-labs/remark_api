@@ -17,7 +17,7 @@ defmodule RemarkApi.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:exjsx, :logger, :postgrex, :ecto, :ranch, :cowboy],
+    [applications: [:exjsx, :logger, :postgrex, :ecto, :ranch, :cowboy, :ex_json_schema],
      mod: {RemarkApi, []}]
   end
 
