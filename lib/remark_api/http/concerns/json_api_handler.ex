@@ -41,7 +41,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
       def handle(req, state) do
         {method, req2} = :cowboy_req.method(req)
         {content_type, req3} = :cowboy_req.header("content-type", req2)
-        normal_content_type = content_type |> String.split(";") |> Enum.at(0)
+        normal_content_type = content_type_normalization(content_type)
         process({method, normal_content_type}, req3, state)
       end
 
@@ -86,6 +86,11 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
         last_message_id = fetch_qs_val(req, "last_message_id")
         per_page = fetch_qs_val(req, "per_page")
         RemarkApi.Pagination.build(last_message_id, per_page)
+      end
+
+      defp content_type_normalization(:undefined), do: ""
+      defp content_type_normalization(value) do
+        value |> String.split(";") |> Enum.at(0)
       end
 
       @before_compile RemarkApi.Http.Concerns.JsonApiHandler
