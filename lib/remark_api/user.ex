@@ -44,4 +44,9 @@ defmodule RemarkApi.User do
     from u in query,
     where: u.login == ^login
   end
+
+  def with_present_android_token(query) do
+    from u in query,
+    where: not is_nil(u.android_token) and u.android_token != ""
+  end
 end
