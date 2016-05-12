@@ -1,4 +1,8 @@
 defmodule RemarkApi.Http.Handlers.WsHandler do
+  @moduledoc """
+  HTTP handler for websocket connections.
+  """
+
   @behaviour :cowboy_http_handler
   @behaviour :cowboy_websocket_handler
 
