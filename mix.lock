@@ -19,6 +19,8 @@
   "getopt": {:hex, :getopt, "0.8.2"},
   "hackney": {:hex, :hackney, "1.6.0"},
   "httpoison": {:hex, :httpoison, "0.8.3"},
+  "httpotion": {:hex, :httpotion, "2.2.2"},
+  "ibrowse": {:hex, :ibrowse, "4.2.2"},
   "idna": {:hex, :idna, "1.2.0"},
   "jsex": {:hex, :jsex, "2.0.0"},
   "jsx": {:hex, :jsx, "2.6.2"},

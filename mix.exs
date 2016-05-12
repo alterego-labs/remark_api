@@ -17,7 +17,7 @@ defmodule RemarkApi.Mixfile do
   #
   # Type "mix help compile.app" for more information
   def application do
-    [applications: [:exjsx, :logger, :postgrex, :ecto, :ranch, :cowboy, :ex_json_schema],
+    [applications: [:exjsx, :logger, :postgrex, :ecto, :ranch, :cowboy, :ex_json_schema, :httpotion],
      mod: {RemarkApi, []}]
   end
 
@@ -31,7 +31,8 @@ defmodule RemarkApi.Mixfile do
       {:faker, "~> 0.5", only: :test},
       {:exrm, "~> 1.0.3"},
       {:excoveralls, "~> 0.4", only: :test},
-      {:ex_json_schema, "~> 0.3.1"}
+      {:ex_json_schema, "~> 0.3.1"},
+      {:httpotion, "~> 2.2.2"}
     ]
   end
 
