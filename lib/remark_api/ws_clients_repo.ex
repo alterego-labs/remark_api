@@ -8,6 +8,8 @@ defmodule RemarkApi.WsClientsRepo do
 
   def create, do: :pg2.create(@bucket)
 
+  def clear, do: :pg2.delete(@bucket)
+
   def add(pid), do: :pg2.join(@bucket, pid)
 
   def remove(pid), do: :pg2.leave(@bucket, pid)

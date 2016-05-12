@@ -24,7 +24,7 @@ defmodule RemarkApi.Http.Handlers.WsHandler do
   end
 
   def websocket_terminate(_reason, _req, _state) do 
-    WsClientsRepo.leave(self())
+    WsClientsRepo.remove(self())
     :ok
   end
 end
