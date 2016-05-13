@@ -1,12 +1,5 @@
 defmodule RemarkApi.Http.Processors.Api.V1.UserTest do
-  use ExUnit.Case, async: true
-
-  import RemarkApi.Factory
-  alias RemarkApi.Repo
-
-  setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
-  end
+  use TestCaseWithDbSandbox
 
   test "no user with requested login not found" do
     resp = RemarkApi.Http.Processors.Api.V1.User.get_info("some_login") 

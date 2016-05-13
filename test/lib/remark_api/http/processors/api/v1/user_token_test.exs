@@ -1,5 +1,5 @@
 defmodule RemarkApi.Http.Processors.Api.V1.UserTokenTest do
-  use TestCaseWithDbSandbox, async: true
+  use TestCaseWithDbSandbox
 
   alias RemarkApi.Http.Processors.Api.V1.UserToken
 

@@ -1,12 +1,5 @@
 defmodule RemarkApi.Http.Processors.Api.V1.LoginTest do
-  use ExUnit.Case
-
-  import RemarkApi.Factory
-  alias RemarkApi.Repo
-
-  setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
-  end
+  use TestCaseWithDbSandbox
 
   test "success login of existed user when params are valid" do
     user = create(:user) 

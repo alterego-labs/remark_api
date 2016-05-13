@@ -32,6 +32,7 @@ defmodule RemarkApi.Http.Processors.Api.V1.UserMessages do
     |> Message.changeset_create(msg_params)
     |> Repo.insert
     |> process_by_insert_result
+    |> notify
   end
 
   defp process_by_insert_result({:ok, message}) do
@@ -41,4 +42,10 @@ defmodule RemarkApi.Http.Processors.Api.V1.UserMessages do
   defp process_by_insert_result({:error, changeset}) do
     {:error, pretty_errors(changeset.errors)}   
   end
+
+  defp notify({:ok, message_hash} = params) do
+    RemarkApi.Notifications.Point.notify(message_hash)
+    params
+  end
+  defp notify(params), do: params
 end

@@ -1,12 +1,5 @@
 defmodule RemarkApi.Http.Processors.Api.V1.MessagesTest do
-  use ExUnit.Case
-
-  import RemarkApi.Factory
-  alias RemarkApi.Repo
-
-  setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
-  end
+  use TestCaseWithDbSandbox
 
   setup do
     user = build(:user) |> create |> with_message

@@ -12,7 +12,6 @@ defmodule RemarkApi.Http.Handlers.Api.V1.UserMessages do
   defp process({"PUT", "application/json"}, req, state) do
     login = fetch_binding(req, :login)
     body = fetch_json_request_body(req)
-    IO.inspect body
     reply = RemarkApi.Http.Processors.Api.V1.UserMessages.put_new_for(login, body)
             |> resolve_reply(req)
     {:ok, reply, state}

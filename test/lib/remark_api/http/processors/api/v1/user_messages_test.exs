@@ -1,5 +1,7 @@
 defmodule RemarkApi.Htto.Processors.Api.V1.UserMessagesTest do
-  use TestCaseWithDbSandbox, async: true
+  use TestCaseWithDbSandbox
+
+  import Mock
 
   test "get all messages for user but it does not found" do
     res = RemarkApi.Http.Processors.Api.V1.UserMessages.get_all("unexisted_user")
@@ -14,9 +16,11 @@ defmodule RemarkApi.Htto.Processors.Api.V1.UserMessagesTest do
   end
 
   test "put new successfully" do
-    user = create(:user)
-    body = %{"message" => %{"body" => "Some message"}}
-    res = RemarkApi.Http.Processors.Api.V1.UserMessages.put_new_for(user.login, body)
-    assert {:ok, _message} = res
+    with_mock RemarkApi.Notifications.Point, [notify: fn(_)-> :ok end] do
+      user = create(:user)
+      body = %{"message" => %{"body" => "Some message"}}
+      res = RemarkApi.Http.Processors.Api.V1.UserMessages.put_new_for(user.login, body)
+      assert {:ok, _message} = res
+    end
   end
 end
