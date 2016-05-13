@@ -32,7 +32,8 @@ defmodule RemarkApi.Mixfile do
       {:exrm, "~> 1.0.3"},
       {:excoveralls, "~> 0.4", only: :test},
       {:ex_json_schema, "~> 0.3.1"},
-      {:httpotion, "~> 2.2.2"}
+      {:httpotion, "~> 2.2.2"},
+      {:mock, "~> 0.1.1", only: :test}
     ]
   end
 
