@@ -1,4 +1,14 @@
 defmodule RemarkApi.Message do
+  @moduledoc """
+  Represents a message or remark in the system and in DB structure.
+
+  Users can post remarks with some thoughts using different clients. That remarks are just simple
+  text.
+  
+  This module also represents an appropriate table in the database and provides tools to access it
+  from the other part of the system.
+  """
+
   use Ecto.Schema
   import Ecto.Query
   import Ecto.Changeset

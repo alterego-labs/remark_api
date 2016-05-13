@@ -1,6 +1,21 @@
 defmodule RemarkApi.Notifications.Receivers.AndroidDevice do
-  alias RemarkApi.Notifications.Sources
+  @moduledoc """
+  Implementation for android devices receivers. 
 
+  The list of target devices is prepared from users that have filled appropriate field.
+
+  ## Example
+
+    RemarkApi.Notifications.Receivers.AndroidDevice.call(%{"key" => "value"})
+  """
+
+  alias RemarkApi.Notifications.Sources
+  alias RemarkApi.Notifications.Receivers
+
+  @doc """
+  Starts sending notifications to all available devices
+  """
+  @spec call(map) :: none
   def call(message_hash) do
     {:ok, message_json_string} = JSX.encode(message_hash)
     Sources.AndroidDevices.get
@@ -8,6 +23,6 @@ defmodule RemarkApi.Notifications.Receivers.AndroidDevice do
   end
 
   defp process_client(device_token, message_json_string) do
-    RemarkApi.Notifications.Receivers.GcmServer.send(device_token, message_json_string)
+    Receivers.GcmServer.send(device_token, message_json_string)
   end
 end

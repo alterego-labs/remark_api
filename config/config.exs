@@ -9,6 +9,9 @@ config :remark_api, RemarkApi.Repo,
   password: "pass",
   hostname: "localhost"
 
+config :remark_api,
+  gcm_api_key: "AIzaSyAp0MJ4aTJs1-GiCMch0dMMoN3R5XRtIoc"
+
 
 # This configuration is loaded before any dependency and is restricted
 # to this project. If another project depends on this project, this

@@ -1,9 +1,33 @@
 defmodule RemarkApi.Notifications.Point do
   @moduledoc """
   The entry point of notifications worker process.
+
+  For first you need to add worker into supervisor tree:
+    
+    defmodule RemarkApi do
+      use Application
+
+      def start(_type, _args) do
+        import Supervisor.Spec, warn: false
+
+        children = [
+          worker(RemarkApi.Notifications.Point, []),
+          ...
+        ]
+
+        opts = [strategy: :one_for_one, name: RemarkApi.Supervisor]
+        Supervisor.start_link(children, opts)
+      end
+    end
+
+  And then you can send notifications to all available source types:
+
+    RemarkApi.Notifications.Point.notify(%{...})
   """
 
   use GenServer
+
+  alias RemarkApi.Notifications.Receivers
 
   @doc """
   Provides casting of sending notifications.
@@ -26,9 +50,8 @@ defmodule RemarkApi.Notifications.Point do
 
 
   def handle_cast({:notify, message_hash}, state) do
-    IO.puts "handle cast!"
-    RemarkApi.Notifications.call(:websocket, message_hash)
-    RemarkApi.Notifications.call(:android_device, message_hash)
+    Receivers.Websocket.call(message_hash)
+    Receivers.AndroidDevice.call(message_hash)
     {:noreply, state}
   end
 end

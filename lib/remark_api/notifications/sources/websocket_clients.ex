@@ -7,6 +7,9 @@ defmodule RemarkApi.Notifications.Sources.WebsocketClients do
     RemarkApi.Notifications.Sources.WebsocketClients.get # => [%PID{}, ...]
   """
 
+  @doc """
+  The main entry for fetching websocket clients pids
+  """
   def get do
     RemarkApi.WsClientsRepo.clients   
   end

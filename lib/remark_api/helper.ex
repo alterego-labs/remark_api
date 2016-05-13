@@ -9,6 +9,15 @@ defmodule RemarkApi.Helper do
   and value is part of message. For example, `[body: "is required"]`.
   This method transforms errors in list which is ready to pass it, for example, in response of
   a JSON API request.
+
+  ## Example of basic usage
+
+    RemarkApi.Helper.pretty_errors([body: "is required"]) # => ["Body is required"]
+
+  ## Example of usage with interpolations
+
+    RemarkApi.Helper.pretty_errors([login: {"should be at most %{count} character(s)", [count: 10]}])
+    # => ["Login should be at most 10 character(s)"]
   """
   @spec pretty_errors(Map.t) :: [String.t]
   def pretty_errors(errors) do
