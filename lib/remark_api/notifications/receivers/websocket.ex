@@ -22,6 +22,8 @@ defmodule RemarkApi.Notifications.Receivers.Websocket do
   end
 
   defp process_client(client_pid, message_json_string) do
-    send client_pid, {:message, message_json_string}
+    spawn fn ->
+      send(client_pid, {:message, message_json_string})
+    end
   end
 end

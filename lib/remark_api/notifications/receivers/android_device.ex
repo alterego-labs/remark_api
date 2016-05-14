@@ -23,6 +23,8 @@ defmodule RemarkApi.Notifications.Receivers.AndroidDevice do
   end
 
   defp process_client(device_token, message_json_string) do
-    Receivers.GcmServer.send(device_token, message_json_string)
+    spawn fn ->
+      Receivers.GcmServer.send(device_token, message_json_string)
+    end
   end
 end
