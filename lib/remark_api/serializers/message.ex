@@ -1,9 +1,28 @@
 defmodule RemarkApi.Serializers.Message do
+  @moduledoc """
+  Serializes RemarkApi.Message struct into Map.
+
+  ## Example of serializing single message
+
+    message = %RemarkApi.Message{body: "Some", id: 1}
+    RemarkApi.Serializes.Message.cast(message) # => %{body: "Some", id: 1, user: %{...}}
+
+  ## Example of serializing the bunch of messages
+
+    messages = [%RemarkApi.Message{body: "Some", id: 1}, ...]
+    RemarkApi.Serializes.Message.cast(messages) # => [%{body: "Some", id: 1, user: %{...}}, ...]
+  """
+
   alias RemarkApi.Repo
 
+  @doc false
+  @spec cast(list(RemarkApi.Message.t)) :: list(map)
   def cast(messages) when is_list(messages) do
     messages |> Enum.map(&cast(&1))
   end
+
+  @doc false
+  @spec cast(RemarkApi.Message.t) :: map
   def cast(message) do
     message = Repo.preload(message, :user)
     %{
