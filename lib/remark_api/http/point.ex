@@ -7,6 +7,7 @@ defmodule RemarkApi.Http.Point do
     dispatch = :cowboy_router.compile([
       {:_, [
           {"/", Handlers.Index, []},
+          {"/ws", Handlers.WsHandler, []},
           {"/api/v1/login", Handlers.Api.V1.Login, []},
           {"/api/v1/messages", Handlers.Api.V1.Messages, []},
           {"/api/v1/users/:login", Handlers.Api.V1.User, []},
