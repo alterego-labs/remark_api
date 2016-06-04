@@ -33,10 +33,11 @@ defmodule RemarkApi.Mixfile do
       {:excoveralls, "~> 0.4", only: :test},
       {:ex_json_schema, "~> 0.3.1"},
       {:httpotion, "~> 2.2.2"},
-      {:mock, "~> 0.1.1", only: :test}
+      {:mock, "~> 0.1.1", only: :test},
+      {:poison, "2.1.0"}
     ]
   end
 
-  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:test), do: ["lib", "test/support", "test/integration"]
   defp elixirc_paths(_), do: ["lib"]
 end

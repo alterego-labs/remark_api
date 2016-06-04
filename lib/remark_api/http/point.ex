@@ -15,6 +15,8 @@ defmodule RemarkApi.Http.Point do
           {"/api/v1/users/:login/messages", Handlers.Api.V1.UserMessages, []}
         ]},
     ])
-    :cowboy.start_http :remark_api, 100, [port: 8183], [env: [dispatch: dispatch]]
+    point_config = Application.get_env(:remark_api, __MODULE__)
+    port = Keyword.get(point_config, :port)
+    :cowboy.start_http :remark_api, 100, [port: port], [env: [dispatch: dispatch]]
   end
 end

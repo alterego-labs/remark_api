@@ -7,3 +7,6 @@ config :remark_api, RemarkApi.Repo,
   username: "admin",
   password: "password",
   hostname: "localhost"
+
+config :remark_api, RemarkApi.Http.Point,
+  port: 8184
