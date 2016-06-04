@@ -6,7 +6,8 @@
   </head>
   <body>
     <script type="text/javascript" charset="utf-8">
-      var socket = new WebSocket('ws://127.0.0.1:8183/ws'); 
+      var socket = new WebSocket('ws://remark-api.alterego-labs.com/ws'); 
+      // var socket = new WebSocket('ws://127.0.0.1:8183/ws'); 
       socket.onopen = function() {
         console.log('Opened!');
       }
@@ -17,6 +18,7 @@
         console.log(event.data);
       }
       socket.onerror = function(error) {
+        debugger;
         console.log('Error ' + error);
       }
     </script>
