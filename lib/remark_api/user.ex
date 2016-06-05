@@ -11,6 +11,7 @@ defmodule RemarkApi.User do
     field :ios_token, :string
 
     has_many :messages, RemarkApi.Message, on_delete: :delete_all
+    has_many :tokens, RemarkApi.Token, on_delete: :delete_all
 
     timestamps
   end
