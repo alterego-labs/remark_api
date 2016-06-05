@@ -12,7 +12,8 @@ defmodule RemarkApi.Http.Point do
           {"/api/v1/messages", Handlers.Api.V1.Messages, []},
           {"/api/v1/users/:login", Handlers.Api.V1.User, []},
           {"/api/v1/users/:login/token", Handlers.Api.V1.UserToken, []},
-          {"/api/v1/users/:login/messages", Handlers.Api.V1.UserMessages, []}
+          {"/api/v1/users/:login/messages", Handlers.Api.V1.UserMessages, []},
+          {"/api/v2/login", Handlers.Api.V1.Login, []}
         ]},
     ])
     point_config = Application.get_env(:remark_api, __MODULE__)
