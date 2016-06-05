@@ -6,3 +6,4 @@ Gruntfile.js
 /rel/**/*
 /test/**/*
 /.git/**/*
+/doc/**/*
