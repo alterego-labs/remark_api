@@ -9,6 +9,7 @@ defmodule RemarkApi.User do
     field :login, :string
     field :android_token, :string
     field :ios_token, :string
+    field :password, :string
 
     has_many :messages, RemarkApi.Message, on_delete: :delete_all
     has_many :tokens, RemarkApi.Token, on_delete: :delete_all
@@ -22,6 +23,17 @@ defmodule RemarkApi.User do
     |> validate_required(:login)
     |> validate_format(:login, ~r/^[a-z0-9_-]*$/)
     |> validate_length(:login, min: 3, max: 10)
+    |> unique_constraint(:login)
+  end
+
+  def changeset_register(user, params \\ :empty) do
+    user
+    |> cast(params, ~w(login password))
+    |> validate_required(:login)
+    |> validate_required(:password)
+    |> validate_format(:login, ~r/^[a-z0-9_-]*$/)
+    |> validate_length(:login, min: 3, max: 10)
+    |> validate_length(:password, min: 6, max: 10)
     |> unique_constraint(:login)
   end
 

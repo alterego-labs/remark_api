@@ -3,7 +3,7 @@ defmodule RemarkApi.Repo.Migrations.AddPasswordToUser do
 
   def change do
     alter table(:users) do
-      add :title, :string
+      add :password, :string
     end
   end
 end

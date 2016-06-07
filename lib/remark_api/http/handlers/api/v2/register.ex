@@ -12,7 +12,7 @@ defmodule RemarkApi.Http.Handlers.Api.V2.Register do
   There are several responses that are dependent on: posted information's schema valid or not; the
   information itself valid or not. The cases are:
 
-    1. _When posted information schema is not valid, or some required fields are blank_ - **422**
+    1. _When posted information schema is not valid, or some required fields are blank_ - **400**
       ```json
       {
         success: false,
@@ -48,7 +48,21 @@ defmodule RemarkApi.Http.Handlers.Api.V2.Register do
 
   use RemarkApi.Http.Concerns.JsonApiHandler
 
-  defp process({"POST", "application/json"}) do
-    
+  alias RemarkApi.Http.Processors.Api
+
+  defp process({"POST", "application/json"}, req, state) do
+    body = fetch_json_request_body(req)
+    reply = Api.V2.Register.call(body) |> resolve_reply(req)
+    {:ok, reply, state}
+  end
+
+  defp resolve_reply({:ok, hash}, req) do
+    make_ok_json_response(req, %{user: hash})
+  end
+  defp resolve_reply({:invalid_schema, errors}, req) do
+    make_bad_request_json_response(req, %{errors: errors})
+  end
+  defp resolve_reply({:invalid_data, errors}, req) do
+    make_422_json_response(req, %{errors: errors})
   end
 end
