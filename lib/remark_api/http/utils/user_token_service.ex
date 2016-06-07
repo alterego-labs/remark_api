@@ -1,5 +1,8 @@
 defmodule RemarkApi.Http.Utils.UserTokenService do
   @moduledoc """
+  Service in order to manage tokens:
+  - attach new one
+  - remove some token
   """
 
   @type token :: String.t

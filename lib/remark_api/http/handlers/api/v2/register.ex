@@ -56,8 +56,8 @@ defmodule RemarkApi.Http.Handlers.Api.V2.Register do
     {:ok, reply, state}
   end
 
-  defp resolve_reply({:ok, hash}, req) do
-    make_ok_json_response(req, %{user: hash})
+  defp resolve_reply({:ok, hash, jwt_token}, req) do
+    make_ok_json_response(req, %{user: hash, jwt: jwt_token})
   end
   defp resolve_reply({:invalid_schema, errors}, req) do
     make_bad_request_json_response(req, %{errors: errors})

@@ -44,7 +44,8 @@ defmodule RemarkApi.Http.Processors.Api.V2.Register do
 
   defp process_by_insert_result({:ok, user}) do
     hash = RemarkApi.Serializers.User.cast(user)
-    {:ok, hash}
+    jwt_token = RemarkApi.Http.Utils.UserTokenService.add_token(user)
+    {:ok, hash, jwt_token}
   end
   defp process_by_insert_result({:error, changeset}) do
     {:invalid_data, pretty_errors(changeset.errors)}
