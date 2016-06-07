@@ -13,8 +13,9 @@ defmodule RemarkApi.Token do
 
   def changeset(token, params \\ :empty) do
     token
-    |> cast(params, ~w(value))
+    |> cast(params, ~w(value user_id))
     |> validate_required(:value)
+    |> assoc_constraint(:user)
   end
 
   def for_user(query, user) do
