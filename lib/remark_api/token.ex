@@ -11,6 +11,12 @@ defmodule RemarkApi.Token do
     timestamps
   end
 
+  def changeset(token, params \\ :empty) do
+    token
+    |> cast(params, ~w(value))
+    |> validate_required(:value)
+  end
+
   def for_user(query, user) do
     from e in query,
     where: e.user_id == ^user.id

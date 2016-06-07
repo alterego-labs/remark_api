@@ -1,7 +1,7 @@
 use Mix.Config
 
 config :remark_api,
-  jwt_secret: 'mXB1qXMaVQ'
+  jwt_secret: "mXB1qXMaVQ"
 
 config :remark_api, RemarkApi.Repo,
   adapter: Ecto.Adapters.Postgres,
