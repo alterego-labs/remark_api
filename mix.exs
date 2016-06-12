@@ -24,7 +24,7 @@ defmodule RemarkApi.Mixfile do
   defp deps do
     [
       {:postgrex, "0.11.1"},
-      {:ecto, "2.0.0-rc.5"},
+      {:ecto, "2.0.0-beta.2"},
       {:cowboy, "1.0.4"},
       {:exjsx, "3.2.0"},
       {:ex_machina, "~> 0.6.1", only: :test},
