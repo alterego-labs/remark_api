@@ -30,7 +30,7 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
       @response_headers [
         {"access-control-allow-origin", "*"},
         {"access-control-allow-methods", "GET, POST, PUT, OPTIONS"},
-        {"Access-Control-Allow-Headers", "origin, content-type"},
+        {"Access-Control-Allow-Headers", "origin, content-type, authorization"},
         {"content-type", "application/json"}
       ]
 
@@ -93,6 +93,8 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
         value |> String.split(";") |> Enum.at(0)
       end
 
+      import RemarkApi.Http.Concerns.Authorization
+
       @before_compile RemarkApi.Http.Concerns.JsonApiHandler
     end
   end
@@ -129,6 +131,8 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
       defp make_422_json_response(req, hash), do: build_json_response(req, hash, 422)
 
       defp make_bad_request_json_response(req, hash), do: build_json_response(req, hash, 400)
+
+      defp make_unauthorized_json_response(req, hash), do: build_json_response(req,hash, 401)
 
       defp build_json_response(req, hash, status) do
         {:ok, json} = JSX.encode(%{data: hash})

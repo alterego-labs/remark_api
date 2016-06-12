@@ -11,6 +11,19 @@ defmodule V2.RegisterTest do
     assert res.status_code == 422
   end
 
+  test "failure if already authorized user do request" do
+    login = random_valid_user_login
+    jwt_token = RemarkApi.TokenService.generate_jwt(login)
+    create(:user, login: login) |> with_token(jwt_token)
+
+    res = ApiCall.post("v2/register", [
+      body: %{user: %{login: random_valid_user_login, password: "password"}},
+      headers: ["Authorization": jwt_token]
+    ])
+
+    assert res.status_code == 401
+  end
+
   test "returns 200 if all info is valid" do
     res = ApiCall.post("v2/register", [body: %{user: %{login: random_valid_user_login, password: "password"}}])
     assert res.status_code == 200

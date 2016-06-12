@@ -11,5 +11,7 @@ defmodule TestCaseWithDbSandbox do
 
   setup do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemarkApi.Repo)
+    Ecto.Adapters.SQL.Sandbox.mode(RemarkApi.Repo, {:shared, self()})
+    :ok
   end
 end

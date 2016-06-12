@@ -1,12 +1,8 @@
 defmodule RemarkApi.Serializers.UserTest do
-  use ExUnit.Case, async: true
+  use TestCaseWithDbSandbox
 
   import RemarkApi.Factory
   alias RemarkApi.Repo
-
-  setup do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
-  end
 
   test "valid serialization of one user" do
     user = create(:user)

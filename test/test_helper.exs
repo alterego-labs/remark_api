@@ -2,6 +2,4 @@
 
 Faker.start()
 
-Ecto.Adapters.SQL.Sandbox.mode(RemarkApi.Repo, {:shared, self()})
-
 ExUnit.start()

@@ -13,8 +13,17 @@ defmodule RemarkApi.Factory do
     }
   end
 
+  def factory(:token) do
+    %RemarkApi.Token{}
+  end
+
   def with_message(%RemarkApi.User{} = user) do
     create(:message, user: user)
+    user
+  end
+
+  def with_token(%RemarkApi.User{} = user, jwt_token) do
+    create(:token, user: user, value: jwt_token)
     user
   end
 

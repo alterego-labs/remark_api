@@ -51,9 +51,11 @@ defmodule RemarkApi.Http.Handlers.Api.V2.Register do
   alias RemarkApi.Http.Processors.Api
 
   defp process({"POST", "application/json"}, req, state) do
-    body = fetch_json_request_body(req)
-    reply = Api.V2.Register.call(body) |> resolve_reply(req)
-    {:ok, reply, state}
+    require_guest(req, state) do
+      body = fetch_json_request_body(req)
+      reply = Api.V2.Register.call(body) |> resolve_reply(req)
+      {:ok, reply, state}
+    end
   end
 
   defp resolve_reply({:ok, hash, jwt_token}, req) do
