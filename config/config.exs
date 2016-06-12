@@ -10,4 +10,6 @@ config :remark_api, RemarkApi.Repo,
 config :remark_api,
   gcm_api_key: "AIzaSyAp0MJ4aTJs1-GiCMch0dMMoN3R5XRtIoc"
 
+config :remark_api, :ecto_repos, [RemarkApi.Repo]
+
 import_config "#{Mix.env}.exs"
