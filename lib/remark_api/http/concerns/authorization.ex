@@ -27,6 +27,19 @@ defmodule RemarkApi.Http.Concerns.Authorization do
 
   @doc """
   Puts the condition that current user is signed in.
+
+  ## Usage
+
+  ```elixir
+  defp process(...) do
+    require_authorized(req, state) do
+      # Your handler code must be here
+    end
+  end
+  ```
+
+  Block inside `require_authorized` will be performed only if request is authorized. Request is authorized means
+  that there is header *Authorization* with JWT token and it is valid.
   """
   defmacro require_authorized(req, state, do: expression) do
     quote do
@@ -41,6 +54,22 @@ defmodule RemarkApi.Http.Concerns.Authorization do
 
   @doc """
   Puts the condition that current user is guest.
+
+  ## Usage
+
+  ```elixir
+  defp process(...) do
+    require_guest(req, state) do
+      # Your handler code must be here
+    end
+  end
+  ```
+
+  Block inside `require_guest` will be performed only if request is not authorized.
+  Request is not authorized means:
+
+  1. Request header *Authorization* does not exist. 
+  2. Request header *Authorization* exists but token from it is invalid.
   """
   defmacro require_guest(req, state, do: expression) do
     quote do
