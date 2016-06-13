@@ -14,15 +14,17 @@ defmodule RemarkApi.Http.Concerns.JsonApiHandler do
 
   ## Example of basic usage
     
-    defmodule MyCoolHandler do
-      use RemarkApi.Http.Concerns.JsonApiHandler
+  ```elixir
+  defmodule MyCoolHandler do
+    use RemarkApi.Http.Concerns.JsonApiHandler
 
-      defp process({"GET", "application/json"}, req, state) do
-        some_response_hash = %{data: "value"}
-        reply = make_ok_json_response(req, some_response_hash)
-        {:ok, reply, state}
-      end
+    defp process({"GET", "application/json"}, req, state) do
+      some_response_hash = %{data: "value"}
+      reply = make_ok_json_response(req, some_response_hash)
+      {:ok, reply, state}
     end
+  end
+  ```
   """
 
   defmacro __using__(_opts \\ []) do

@@ -1,11 +1,32 @@
 defmodule RemarkApi.Http.Concerns.Authorization do
   @moduledoc """
+  Provides additional functional to be able to secure your HTTP handlers by checking if user
+  signed in or not.
+  
+  Basically the two provided macroses do the party. Using one of them you can put requirement that
+  that particular handler requires authorized user or guest user.
+  
+  ## Usage
+
+  The usage integration is very simple - you need wrap the process's body with one of the proposed
+  macroses, for example:
+
+  ```elixir
+  defp process({"POST", "application/json"}, req, state) do
+    require_guest(req, state) do
+      ...
+      {:ok, reply, state}
+    end
+  end
+
+  The code inside `require_guest` will be run if current user is guest.
+  ```
   """
 
   alias RemarkApi.Http.Utils
 
   @doc """
-  
+  Puts the condition that current user is signed in.
   """
   defmacro require_authorized(req, state, do: expression) do
     quote do
@@ -18,6 +39,9 @@ defmodule RemarkApi.Http.Concerns.Authorization do
     end
   end
 
+  @doc """
+  Puts the condition that current user is guest.
+  """
   defmacro require_guest(req, state, do: expression) do
     quote do
       if check_authorization(unquote(req)) do

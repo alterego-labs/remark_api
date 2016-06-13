@@ -48,7 +48,6 @@ defmodule RemarkApi.Notifications.Point do
     {:ok, 0}
   end
 
-
   def handle_cast({:notify, message_hash}, state) do
     IO.puts "Starting send notifications..."
     Receivers.Websocket.call(message_hash)

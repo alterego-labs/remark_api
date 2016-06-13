@@ -7,7 +7,8 @@ defmodule RemarkApi do
     children = [
       supervisor(RemarkApi.Repo, []),
       worker(RemarkApi.Http.Point, []),
-      worker(RemarkApi.Notifications.Point, [])
+      worker(RemarkApi.Notifications.Point, []),
+      worker(RemarkApi.TokenService, [])
     ]
 
     RemarkApi.WsClientsRepo.create
