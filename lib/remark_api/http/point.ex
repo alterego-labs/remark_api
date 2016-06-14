@@ -2,12 +2,14 @@ defmodule RemarkApi.Http.Point do
   use GenServer
 
   alias RemarkApi.Http.Handlers
+  alias RemarkApi.Http
 
   def start_link(opts \\ []) do
     dispatch = :cowboy_router.compile([
       {:_, [
           {"/", Handlers.Index, []},
           {"/ws", Handlers.WsHandler, []},
+          {"/test", Http.JsonApiHandler, [specific_handler: Handlers.Index]},
 
           {"/api/v1/login", Handlers.Api.V1.Login, []},
           {"/api/v1/messages", Handlers.Api.V1.Messages, []},
