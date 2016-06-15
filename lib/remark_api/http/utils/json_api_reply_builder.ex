@@ -36,7 +36,7 @@ defmodule RemarkApi.Http.Utils.JsonApiReplyBuilder do
   @doc """
   Makes 401 Unauthorized reply
   """
-  def make_unauhtorized_reply(req, hash), do: build_json_response(req, hash, 401)
+  def make_unauthorized_reply(req, hash), do: build_json_response(req, hash, 401)
 
   @doc """
   Makes 404 Not Found reply

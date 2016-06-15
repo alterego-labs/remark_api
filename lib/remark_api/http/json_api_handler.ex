@@ -105,7 +105,22 @@ defmodule RemarkApi.Http.JsonApiHandler do
     |> process_by_specific_handler_response(remark_api_request)
   end
 
-  defp process_by_specific_handler_response(response, %Request{original_req: original_req}) do
-    make_ok_reply(original_req, %{})
+  defp process_by_specific_handler_response({:ok, data}, %Request{original_req: original_req}) do
+    make_ok_reply(original_req, data)
+  end
+  defp process_by_specific_handler_response({:not_found, data}, %Request{original_req: original_req}) do
+    make_not_found_reply(original_req, data)
+  end
+  defp process_by_specific_handler_response({:bad_request, data}, %Request{original_req: original_req}) do
+    make_bad_request_reply(original_req, data)
+  end
+  defp process_by_specific_handler_response({:unauthorized, data}, %Request{original_req: original_req}) do
+    make_unauthorized_reply(original_req, data)
+  end
+  defp process_by_specific_handler_response({:method_not_allowed, data}, %Request{original_req: original_req}) do
+    make_method_not_allowed_reply(original_req, data)
+  end
+  defp process_by_specific_handler_response({:unprocessable_entity, data}, %Request{original_req: original_req}) do
+    make_unprocessable_entity_reply(original_req, data)
   end
 end

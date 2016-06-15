@@ -47,7 +47,7 @@ defmodule RemarkApi.Http.Concerns.Authorization do
       unless check_authorization(unquote(remark_api_request)) do
         unquote(expression)
       else
-        make_unauhtorized_response(%{errors: ['You do not authorized!']})
+        make_unauthorized_response(%{errors: ['You do not authorized!']})
       end
     end
   end
@@ -74,7 +74,7 @@ defmodule RemarkApi.Http.Concerns.Authorization do
   defmacro require_guest(remark_api_request, do: expression) do
     quote do
       if check_authorization(unquote(remark_api_request)) do
-        make_unauhtorized_response(%{errors: ['You do not authorized!']})
+        make_unauthorized_response(%{errors: ['You do not authorized!']})
       else
         unquote(expression)
       end

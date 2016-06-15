@@ -24,8 +24,8 @@ defmodule RemarkApi.Http.Utils.SpecificHandlerResponseBuilder do
   @doc """
   Constructs Unauthorized response with custom data
   """
-  @spec make_unauhtorized_response(map) :: {:unauhtorized, map}
-  def make_unauhtorized_response(data \\ %{}), do: {:unauhtorized, data}
+  @spec make_unauthorized_response(map) :: {:unauthorized, map}
+  def make_unauthorized_response(data \\ %{}), do: {:unauthorized, data}
 
   @doc """
   Constructs Method Not Allowed response with custom data
