@@ -39,6 +39,14 @@ defmodule RemarkApi.Http.JsonApiHandler do
   request and some basic checkes are passed, the specific handler will be called.
   """
 
+  import RemarkApi.Http.Concerns.JsonApiReplyBuilder
+
+  alias RemarkApi.Http.Request
+
+  require IEx
+
+  @allowed_content_types ["application/json"]
+
   @doc """
   Initialization function.
   """
@@ -51,10 +59,34 @@ defmodule RemarkApi.Http.JsonApiHandler do
   Handles an incoming request.
   """
   def handle(req, state) do
+    req
+    |> build_remark_api_request
+    |> process(state)
   end
 
   @doc false
   def terminate(reason, request, state) do
     :ok
+  end
+
+  defp build_remark_api_request(req) do
+    %RemarkApi.Http.Request{original_req: req}
+  end
+
+  defp process(remark_api_request, state) do
+    reply = Request.header(remark_api_request, "content-type")
+            |> check_content_type_allowance
+            |> process_by_content_type(remark_api_request, state)
+    {:ok, reply, state}
+  end
+
+  defp check_content_type_allowance({:undefined, _req}), do: false
+  defp check_content_type_allowance({content_type, _req}) do
+    @allowed_content_types
+    |> Enum.any?(fn(allowed) -> String.contains?(content_type, allowed) end)
+  end
+
+  defp process_by_content_type(false = _allowed, remark_api_request, state) do
+    make_method_not_allowed_reply(remark_api_request.original_req, %{})
   end
 end
