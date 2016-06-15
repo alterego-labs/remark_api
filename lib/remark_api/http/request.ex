@@ -11,11 +11,21 @@ defmodule RemarkApi.Http.Request do
   @type remark_api_request :: RemarkApi.Http.Request
 
   @doc """
+  Fetches HTTP method
+  """
+  @spec method(remark_api_request) :: String.t
+  def method(remark_api_request) do
+    {method, _req} = :cowboy_req.method(remark_api_request.original_req)
+    method
+  end
+
+  @doc """
   Fetches request header by its name.
   """
-  @spec header(remark_api_request, String.t) :: String.t
+  @spec header(remark_api_request, String.t) :: String.t | :undefind
   def header(request, name) do
-    :cowboy_req.header(name, request.original_req)
+    {header_value, _req} = :cowboy_req.header(name, request.original_req)
+    header_value
   end
 
   @doc """

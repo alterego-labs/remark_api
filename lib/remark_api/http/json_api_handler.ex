@@ -46,13 +46,14 @@ defmodule RemarkApi.Http.JsonApiHandler do
   require IEx
 
   @allowed_content_types ["application/json"]
+  @specific_handler_key :specific_handler
 
   @doc """
   Initialization function.
   """
   def init(_type, req, opts) do
-    specific_handler = Keyword.get(opts, :specific_handler)
-    {:ok, req, %{specific_handler: specific_handler}}
+    specific_handler = Keyword.get(opts, @specific_handler_key)
+    {:ok, req, %{@specific_handler_key => specific_handler}}
   end
 
   @doc """
@@ -80,13 +81,31 @@ defmodule RemarkApi.Http.JsonApiHandler do
     {:ok, reply, state}
   end
 
-  defp check_content_type_allowance({:undefined, _req}), do: false
-  defp check_content_type_allowance({content_type, _req}) do
+  defp check_content_type_allowance(:undefined), do: false
+  defp check_content_type_allowance(nil), do: false
+  defp check_content_type_allowance(content_type) do
     @allowed_content_types
     |> Enum.any?(fn(allowed) -> String.contains?(content_type, allowed) end)
   end
 
-  defp process_by_content_type(false = _allowed, remark_api_request, state) do
-    make_method_not_allowed_reply(remark_api_request.original_req, %{})
+  defp process_by_content_type(false = _allowed, %Request{original_req: original_req}, _state) do
+    make_method_not_allowed_reply(original_req, %{})
+  end
+  defp process_by_content_type(true = _allowed, remark_api_request, state) do
+    Request.method(remark_api_request)
+    |> process_by_method(remark_api_request, state)
+  end
+
+  defp process_by_method("OPTIONS", %Request{original_req: original_req}, _state) do
+    make_ok_reply(original_req, %{})
+  end
+  defp process_by_method(method, remark_api_request, state) do
+    Map.get(state, @specific_handler_key)
+    |> apply(:process, [method, remark_api_request])
+    |> process_by_specific_handler_response(remark_api_request)
+  end
+
+  defp process_by_specific_handler_response(response, %Request{original_req: original_req}) do
+    make_ok_reply(original_req, %{})
   end
 end
