@@ -46,25 +46,29 @@ defmodule RemarkApi.Http.Handlers.Api.V2.Register do
       ```
   """
 
-  use RemarkApi.Http.Concerns.JsonApiHandler
+  use RemarkApi.Http.Concerns.JsonApiSpecificHandler
 
   alias RemarkApi.Http.Processors.Api
+  alias RemarkApi.Http.Request
 
-  defp process({"POST", "application/json"}, req, state) do
-    require_guest(req, state) do
-      body = fetch_json_request_body(req)
-      reply = Api.V2.Register.call(body) |> resolve_reply(req)
-      {:ok, reply, state}
+  @type http_method :: String.t
+
+  @spec process(http_method, Request.t) :: {:ok, map} | {:unprocessable_entity, map} | {:not_found, map}
+  def process("POST", remark_api_request) do
+    require_guest(remark_api_request) do
+      Request.json_body(remark_api_request)
+      |> Api.V2.Register.call
+      |> resolve_reply
     end
   end
 
-  defp resolve_reply({:ok, hash, jwt_token}, req) do
-    make_ok_json_response(req, %{user: hash, jwt: jwt_token})
+  defp resolve_reply({:ok, hash, jwt_token}) do
+    make_ok_response(%{user: hash, jwt: jwt_token})
   end
-  defp resolve_reply({:invalid_schema, errors}, req) do
-    make_bad_request_json_response(req, %{errors: errors})
+  defp resolve_reply({:invalid_schema, errors}) do
+    make_bad_request_response(%{errors: errors})
   end
-  defp resolve_reply({:invalid_data, errors}, req) do
-    make_422_json_response(req, %{errors: errors})
+  defp resolve_reply({:invalid_data, errors}) do
+    make_unprocessable_entity_response(%{errors: errors})
   end
 end
