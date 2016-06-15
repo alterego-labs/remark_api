@@ -43,14 +43,13 @@ defmodule RemarkApi.Http.JsonApiHandler do
 
   alias RemarkApi.Http.Request
 
-  require IEx
-
   @allowed_content_types ["application/json"]
   @specific_handler_key :specific_handler
 
   @doc """
   Initialization function.
   """
+  @spec init(any, :cowboy_req.t, Keyword.t) :: {:ok, :cowboy_req.t, map}
   def init(_type, req, opts) do
     specific_handler = Keyword.get(opts, @specific_handler_key)
     {:ok, req, %{@specific_handler_key => specific_handler}}
@@ -59,6 +58,7 @@ defmodule RemarkApi.Http.JsonApiHandler do
   @doc """
   Handles an incoming request.
   """
+  @spec handle(:cowboy_req.t, map) :: {:ok, any, map}
   def handle(req, state) do
     req
     |> build_remark_api_request
