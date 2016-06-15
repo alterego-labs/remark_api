@@ -24,6 +24,7 @@ defmodule RemarkApi.Http.Concerns.Authorization do
   """
 
   alias RemarkApi.Http.Utils
+  alias RemarkApi.Http.Request
 
   @doc """
   Puts the condition that current user is signed in.
@@ -41,13 +42,12 @@ defmodule RemarkApi.Http.Concerns.Authorization do
   Block inside `require_authorized` will be performed only if request is authorized. Request is authorized means
   that there is header *Authorization* with JWT token and it is valid.
   """
-  defmacro require_authorized(req, state, do: expression) do
+  defmacro require_authorized(remark_api_request, do: expression) do
     quote do
-      unless check_authorization(unquote(req)) do
+      unless check_authorization(unquote(remark_api_request)) do
         unquote(expression)
       else
-        reply = make_unauthorized_json_response(unquote(req), %{errors: ['You do not authorized!']})
-        {:ok, reply, unquote(state)}
+        make_unauthorized_response(%{errors: ['You do not authorized!']})
       end
     end
   end
@@ -71,11 +71,10 @@ defmodule RemarkApi.Http.Concerns.Authorization do
   1. Request header *Authorization* does not exist. 
   2. Request header *Authorization* exists but token from it is invalid.
   """
-  defmacro require_guest(req, state, do: expression) do
+  defmacro require_guest(remark_api_request, do: expression) do
     quote do
-      if check_authorization(unquote(req)) do
-        reply = make_unauthorized_json_response(unquote(req), %{errors: ['You do not authorized!']})
-        {:ok, reply, unquote(state)}
+      if check_authorization(unquote(remark_api_request)) do
+        make_unauthorized_response(%{errors: ['You do not authorized!']})
       else
         unquote(expression)
       end
@@ -86,9 +85,9 @@ defmodule RemarkApi.Http.Concerns.Authorization do
   Checks authorization by reading JWT token from the Authorization header and then check it through
   the existed tokens.
   """
-  @spec check_authorization(:cowboy_req.t) :: boolean
-  def check_authorization(req) do
-    {authorization_token, _req} = :cowboy_req.header("authorization", req)
-    Utils.UserTokenService.verify_token(authorization_token)
+  @spec check_authorization(Request.t) :: boolean
+  def check_authorization(remark_api_request) do
+    Request.header(remark_api_request, "authorization")
+    |> Utils.UserTokenService.verify_token
   end
 end
