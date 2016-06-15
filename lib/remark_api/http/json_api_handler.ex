@@ -39,7 +39,7 @@ defmodule RemarkApi.Http.JsonApiHandler do
   request and some basic checkes are passed, the specific handler will be called.
   """
 
-  import RemarkApi.Http.Concerns.JsonApiReplyBuilder
+  import RemarkApi.Http.Utils.JsonApiReplyBuilder
 
   alias RemarkApi.Http.Request
 

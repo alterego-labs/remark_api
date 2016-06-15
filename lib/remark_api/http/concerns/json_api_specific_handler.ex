@@ -34,7 +34,8 @@ defmodule RemarkApi.Http.Concerns.JsonApiSpecificHandler do
 
   defmacro __using__(_opts \\ []) do
     quote do
-      import RemarkApi.Http.Concerns.SpecificHandlerResponseBuilder
+      import RemarkApi.Http.Utils.SpecificHandlerResponseBuilder
+      import RemarkApi.Http.Concerns.Authorization
 
       @before_compile __MODULE__
     end

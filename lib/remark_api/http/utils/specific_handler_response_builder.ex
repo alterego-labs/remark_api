@@ -1,4 +1,4 @@
-defmodule RemarkApi.Http.Concerns.SpecificHandlerResponseBuilder do
+defmodule RemarkApi.Http.Utils.SpecificHandlerResponseBuilder do
   @moduledoc """
   Provides for specific handler convinient way to construct responses for common handler.
   """

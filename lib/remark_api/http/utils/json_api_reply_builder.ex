@@ -1,4 +1,4 @@
-defmodule RemarkApi.Http.Concerns.JsonApiReplyBuilder do
+defmodule RemarkApi.Http.Utils.JsonApiReplyBuilder do
   @moduledoc """
   Provides a bunch of methods for building different kinds of replies.
 
