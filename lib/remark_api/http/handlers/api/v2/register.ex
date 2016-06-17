@@ -48,16 +48,14 @@ defmodule RemarkApi.Http.Handlers.Api.V2.Register do
 
   use RemarkApi.Http.Concerns.JsonApiSpecificHandler
 
-  alias RemarkApi.Http.Processors.Api
-  alias RemarkApi.Http.Request
-
-  @type http_method :: String.t
-
-  @spec process(http_method, Request.t) :: {:ok, map} | {:unprocessable_entity, map} | {:not_found, map}
+  @doc """
+  Handles the concrete request type, which is match by HTTP method.
+  """
+  @spec process(String.t, Request.t) :: {:ok, map} | {:unprocessable_entity, map} | {:not_found, map}
   def process("POST", remark_api_request) do
     require_guest(remark_api_request) do
       Request.json_body(remark_api_request)
-      |> Api.V2.Register.call
+      |> Processors.Api.V2.Register.call
       |> resolve_reply
     end
   end

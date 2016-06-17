@@ -37,6 +37,9 @@ defmodule RemarkApi.Http.Concerns.JsonApiSpecificHandler do
       import RemarkApi.Http.Utils.SpecificHandlerResponseBuilder
       import RemarkApi.Http.Concerns.Authorization
 
+      alias RemarkApi.Http.Processors
+      alias RemarkApi.Http.Request
+
       @before_compile RemarkApi.Http.Concerns.JsonApiSpecificHandler
     end
   end
