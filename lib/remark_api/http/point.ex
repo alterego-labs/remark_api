@@ -17,7 +17,7 @@ defmodule RemarkApi.Http.Point do
           {"/api/v1/users/:login/token", Handlers.Api.V1.UserToken, []},
           {"/api/v1/users/:login/messages", Handlers.Api.V1.UserMessages, []},
 
-          {"/api/v2/login", Handlers.Api.V1.Login, []},
+          {"/api/v2/login", Http.JsonApiHandler, [specific_handler: Handlers.Api.V2.Login]},
           {"/api/v2/register", Http.JsonApiHandler, [specific_handler: Handlers.Api.V2.Register]},
           {"/api/v2/messages", Handlers.Api.V1.Messages, []},
           {"/api/v2/users/:login", Handlers.Api.V1.User, []},

@@ -1,6 +1,6 @@
-defmodule RemarkApi.Http.Processors.Api.V2.Register do
+defmodule RemarkApi.Http.Processors.Api.V2.Login do
   @moduledoc """
-  Processor for registration endpoint of API V2.
+  Processor for login endpoint of API V2.
   """
 
   @attach_schema %{
@@ -43,21 +43,21 @@ defmodule RemarkApi.Http.Processors.Api.V2.Register do
 
   defp process_with_validation_result(:ok, body) do
     params = Map.get(body, "user")
-    %User{}
-    |> User.changeset_login(params)
-    |> Repo.insert
-    |> process_by_insert_result
+    login = Map.get(params, "login")
+    password = Map.get(params, "password")
+    RemarkApi.Utils.UserCredentialsChecker.check(login, password)
+    |> process_by_checker_result
   end
   defp process_with_validation_result({:error, errors}, _body) do
     {:invalid_schema, errors}
   end
 
-  defp process_by_insert_result({:ok, user}) do
+  defp process_by_checker_result({false, nil}) do
+    {:invalid_credentials, %{}}
+  end
+  defp process_by_checker_result({true, %User{} = user}) do
     hash = RemarkApi.Serializers.User.cast(user)
     jwt_token = RemarkApi.Http.Utils.UserTokenService.add_token(user)
     {:ok, hash, jwt_token}
-  end
-  defp process_by_insert_result({:error, changeset}) do
-    {:invalid_data, pretty_errors(changeset.errors)}
   end
 end
