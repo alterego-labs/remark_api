@@ -12,12 +12,16 @@ defmodule RemarkApi.Helper do
 
   ## Example of basic usage
 
-    RemarkApi.Helper.pretty_errors([body: "is required"]) # => ["Body is required"]
+  ```elixir
+  RemarkApi.Helper.pretty_errors([body: "is required"]) # => ["Body is required"]
+  ```
 
   ## Example of usage with interpolations
 
-    RemarkApi.Helper.pretty_errors([login: {"should be at most %{count} character(s)", [count: 10]}])
-    # => ["Login should be at most 10 character(s)"]
+  ```elixir
+  RemarkApi.Helper.pretty_errors([login: {"should be at most %{count} character(s)", [count: 10]}])
+  # => ["Login should be at most 10 character(s)"]
+  ```
   """
   @spec pretty_errors(Map.t) :: [String.t]
   def pretty_errors(errors) do

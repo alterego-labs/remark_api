@@ -3,7 +3,7 @@ defmodule RemarkApi.Mixfile do
 
   def project do
     [app: :remark_api,
-     version: "0.0.1",
+     version: "2.0.0-beta.0",
      elixir: "~> 1.2",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -24,7 +24,7 @@ defmodule RemarkApi.Mixfile do
   defp deps do
     [
       {:postgrex, "0.11.1"},
-      {:ecto, "2.0.0-beta.2"},
+      {:ecto, "2.0.0-rc.5"},
       {:cowboy, "1.0.4"},
       {:exjsx, "3.2.0"},
       {:ex_machina, "~> 0.6.1", only: :test},
@@ -34,7 +34,10 @@ defmodule RemarkApi.Mixfile do
       {:ex_json_schema, "~> 0.3.1"},
       {:httpotion, "~> 2.2.2"},
       {:mock, "~> 0.1.1", only: :test},
-      {:poison, "2.1.0"}
+      {:poison, "2.1.0"},
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.11", only: :dev},
+      {:joken, "1.2.0"}
     ]
   end
 
