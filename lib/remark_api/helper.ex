@@ -30,8 +30,11 @@ defmodule RemarkApi.Helper do
   end
 
   defp do_prettify({field_name, message}) when is_bitstring(message) do
-    processed_key = field_name |> Atom.to_string |> String.capitalize
-    processed_key <> " " <> message 
+    human_field_name = field_name
+                        |> Atom.to_string
+                        |> String.replace("_", " ")
+                        |> String.capitalize
+    human_field_name <> " " <> message 
   end
   defp do_prettify({field_name, {message, variables}}) do
     compound_message = do_interpolate(message, variables)
