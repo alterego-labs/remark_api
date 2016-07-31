@@ -15,7 +15,7 @@ RUN mix local.hex --force
 RUN mix local.rebar --force
 RUN mix deps.get && mix deps.compile
 RUN mix compile
-RUN mix release
+RUN mix release --verbosity=verbose
 
 EXPOSE 8183
 
